@@ -23,7 +23,7 @@ You can use the script by simply pulling it down with wget or curl, changing the
 ## Contributing by making changes
 
 1. Clone the repo
-`git clone https://gitlab.com/bmcgonag/docker_installs.git`
+`git clone https://github.com/alexaandig/self-hosting.git`
 
 
 ## Prompts from the script:
