@@ -5,9 +5,11 @@ volumes:
   database-data:
 
 networks:
-  my-main-net:
+  default:
     name: my-main-net
     external: true
+  calcom:
+    name: calcom-network
 
 services:
   database:
@@ -18,7 +20,7 @@ services:
       - database-data:/var/lib/postgresql/data/
     env_file: .env
     networks:
-      - default
+      - calcom
 
   calcom:
     image: calcom.docker.scarf.sh/calcom/cal.com
@@ -27,18 +29,19 @@ services:
       dockerfile: Dockerfile
       args:
         NEXT_PUBLIC_WEBAPP_URL: ${NEXT_PUBLIC_WEBAPP_URL}
+        NEXT_PUBLIC_API_V2_URL: ${NEXT_PUBLIC_API_V2_URL}
         NEXT_PUBLIC_LICENSE_CONSENT: ${NEXT_PUBLIC_LICENSE_CONSENT}
         CALCOM_TELEMETRY_DISABLED: ${CALCOM_TELEMETRY_DISABLED}
         NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
         CALENDSO_ENCRYPTION_KEY: ${CALENDSO_ENCRYPTION_KEY}
         DATABASE_URL: ${DATABASE_URL}
         DATABASE_DIRECT_URL: ${DATABASE_URL}
-      network: default
+      network: calcom
     restart: always
     networks:
-      - default
+      - calcom
     ports:
-      - 8594:3000
+      - 3000:3000
     env_file: .env
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DATABASE_HOST}/${POSTGRES_DB}
@@ -51,7 +54,7 @@ services:
     image: calcom.docker.scarf.sh/calcom/cal.com
     restart: always
     networks:
-      - default
+      - calcom
     ports:
       - 5555:5555
     env_file: .env

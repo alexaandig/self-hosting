@@ -39,7 +39,14 @@ installApps()
 
     if [[ "$INSTALLAPPS" == [yY] ]]; then
         read -rp "NGinX Proxy Manager (y/n): " NPM
+        read -rp "Navidrome (y/n): " NAVID
         read -rp "Portainer-CE (y/n): " PTAIN
+        read -rp "Calcom (y/n): " CALCOM
+        read -rp "Remotely - Remote Desktop Support (y/n): " REMOTELY
+        read -rp "Guacamole - Remote Desktop Protocol in the Browser (y/n): " GUAC
+        read -rp "Uptime Kuma - An Uptime Monitor with Notifications (y/n): " KUMA
+        read -rp "RustDesk Server - a Remote Desktop / Access Relay Server (y/n): " RUST
+        read -rp "Beszel Monitoring Hub - a lightweight system mointoring solution (y/n): " BESZEL
     fi
 
     if [[ "$PTAIN" == [yY] ]]; then
@@ -80,7 +87,7 @@ startInstall()
 
     if [[ "$OS" == "7" ]]; then
         echo "    1. Installing System Updates..."
-        (sudo apt update  && sudo apt upgrade -y) > ~/docker-script-install.loc 2>&1 &
+        (sudo apt update  && sudoa apt upgrade -y) > ~/docker-script-install.loc 2>&1 &
         ## Show a spinner for activity progress
         pid=$   # Process ID of the previous running command
         spin='-\|/'
@@ -143,7 +150,7 @@ startInstall()
 
     if [[ "$OS" == [234] ]]; then
         echo "    1. Installing System Updates... this may take a while...be patient. If it is being done on a Digial Ocean VPS, you should run updates before running this script."
-        (sudo apt update && sudo apt upgrade -y && sudo apt  install docker-compose) > ~/docker-script-install.log 2>&1 &
+        (sudo apt update && sudo apt upgrade -y) > ~/docker-script-install.log 2>&1 &
         ## Show a spinner for activity progress
         pid=$! # Process Id of the previous running command
         spin='-\|/'
@@ -437,10 +444,10 @@ startInstall()
         # pull an nginx proxy manager docker-compose file from github
         echo "    1. Pulling a default NGinX Proxy Manager docker-compose.yml file."
 
-        mkdir -p docker-install/nginx-proxy-manager
-        cd docker-install/nginx-proxy-manager
+        mkdir -p docker/nginx-proxy-manager
+        cd docker/nginx-proxy-manager
 
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
         echo ""
@@ -477,9 +484,9 @@ startInstall()
         echo "    3. You can find Portainer-CE files in ./docker/portainer"
 
         #sudo docker volume create portainer_data >> ~/docker-script-install.log 2>&1
-        mkdir -p docker-install/portainer/portainer_data
-        cd docker-install/portainer
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        mkdir -p docker/portainer/portainer_data
+        cd docker/portainer
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
 
         if [[ "$OS" == "1" ]]; then
@@ -508,9 +515,9 @@ startInstall()
         echo "    3. You can find Portainer-Agent files in ./docker/portainer"
 
         sudo docker volume create portainer_data
-        mkdir -p docker-install/portainer
-        cd docker-install/portainer
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        mkdir -p docker/portainer
+        cd docker/portainer
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
         
         if [[ "$OS" == "1" ]]; then
@@ -523,6 +530,339 @@ startInstall()
         echo "    From Portainer or Portainer-CE add this Agent instance via the 'Endpoints' option in the left menu."
         echo "       ####     Use the IP address of this server and port 9001"
         echo ""
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$NAVID" == [yY] ]]; then
+        echo "###########################################"
+        echo "###        Installing Navidrome         ###"
+        echo "###########################################"
+        echo ""
+        echo "    1. Preparing to install Navidrome"
+
+        mkdir -p docker/navidrome
+        cd docker/navidrome
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo "    2. Running the docker-compose.yml to install and start Navidrome"
+        echo ""
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    3. You can find your Navidrome files in ./docker/navidrome"
+        echo ""
+        echo "    Navigate to your server hostname / IP address on port 4533 to setup"
+        echo "    your new Navidrome admin account."
+        echo ""      
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$REMOTELY" == [yY] ]]; then
+        echo "##########################################"
+        echo "###          Install Remotely          ###"
+        echo "##########################################"
+    
+        echo "    Starging the Remotely Install..."
+        echo ""
+        echo ""
+        sleep 3s
+
+        # pull a remotely docker-compose file from gitlab
+        echo "    1. Pulling a default Remotely docker-compose.yml file."
+
+        mkdir -p docker/remotely
+        cd docker/remotely
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_remotely.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        
+        echo "    2. Pulling the necessary environment variable file..."
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/remotely_env -o .env >> ~/docker-script-install.log 2>&1
+        
+        # replace the existing default password with our randomly generated db password
+        # Define the line to replace with
+        var="POSTGRES_PASSWORD=$postgrespw"
+
+        # Define the line to search for (to be replaced)
+        search_line="POSTGRES_PASSWORD=changeMe1"
+
+        # Define the file to modify
+        file=".env"
+
+        # Use awk to replace the line
+        awk -v var="$var" '/'"$search_line"'/ { $0 = var } 1' "$file" > temp && mv temp "$file"
+
+        echo "    3. Running the docker-compose.yml to pull and start Remotely..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    4. You can find the Remotely folder at ~/docker/remotely..."
+        echo ""
+        echo "      Navigate to your server hostname / IP address on port 5000, unless you changed it,"
+        echo "      to setup your new Remotely installation."
+        echo ""
+        echo "      You will likely want to create a reverse proxy entry in NGinX Proxy Manager"
+        echo "      for your new Remotely server.  If so, also make sure to set the"
+        echo "      'Require https' option in the Remotely Settings to true (checked)."
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$CALCOM" == [yY] ]]; then
+        echo "##########################################"
+        echo "###          Install Calcom          ###"
+        echo "##########################################"
+    
+        echo "    Starging the Calcom Install..."
+        echo ""
+        echo ""
+        sleep 3s
+
+        # pull a calcom docker-compose file from gitlab
+        echo "    1. Pulling a default Calcom docker-compose.yml file."
+
+        mkdir -p docker/calcom
+        cd docker/calcom
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_calcom.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        
+        echo "    2. Pulling the necessary environment variable file..."
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/calcom_env -o .env >> ~/docker-script-install.log 2>&1
+
+        echo "    3. Running the docker-compose.yml to pull and start Calcom..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    4. You can find the Calcom folder at ~/docker/calcom..."
+        echo ""
+        echo "      Navigate to your server hostname / IP address on port 3000, unless you changed it,"
+        echo "      to setup your new Calcom installation."
+        echo ""
+        echo "      You will likely want to create a reverse proxy entry in NGinX Proxy Manager"
+        echo "      for your new Calcom server.  If so, also make sure to set the"
+        echo "      'Require https' option in the Calcom Settings to true (checked)."
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$GUAC" == [yY] ]]; then
+        echo "##########################################"
+        echo "###         Installing Guacamole       ###"
+        echo "##########################################"
+    
+        # pull a guacamole docker-compose file from gitlab
+        echo "    1. Pulling a default Guacamole docker-compose.yml file."
+
+        mkdir -p docker/guacamole
+        cd docker/guacamole
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_guacamole.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo ""
+        echo ""
+        echo "    2. Running the docker-compose.yml to pull and start Guacamole..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    3. You can find the Guacamole folder at ~/docker/guacamole..."
+        echo ""
+        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      port number 8080 to reach the Guacamole login page."
+        echo ""
+        echo "      Use the default credentials to loging the first time:"
+        echo "          username: guacadmin"
+        echo "          password: guacadmin"
+        echo ""
+        echo "      It is highly recommended that you create a new admin user, and"
+        echo "      delete / disable the default user."
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$RUST" == [yY] ]]; then
+        echo "##########################################"
+        echo "###         Installing RustDesk        ###"
+        echo "##########################################"
+    
+        # pull a rustdesk server docker-compose file from gitlab
+        echo ""
+        read -rp "Please enter a FQDN (fully qualified domain name) or IP address for your RustDesk server (e.g. rust.mydomain.com): " RUSTFQDN
+        echo ""
+        echo ""
+        echo "    1. Pulling a the RustDesk docker-compose.yml file."
+
+        mkdir -p docker/rustdesk/{hbbr,hbbs}
+        cd docker/rustdesk
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_rustdesk-server.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo ""
+        echo ""
+        echo "    2. Pulling the environment variable file needed (.env)..."
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/rustdesk_env -o .env >> ~/docker-script-install.log 2>&1
+        echo ""
+        echo ""
+        echo "    3. Creating your encryption key..."
+
+        cd hbbs
+        # generate a secret key - this is an ed25519 key
+        ssh-keygen -t ed25519 -f ./id_ed25519
+
+        yoursecretkey=$(<id_ed25519.pub)
+
+        secondpartsecretkey=$(echo "$yoursecretkey" | cut -d ' ' -f 2)
+
+        rm id_ed25519.pub
+
+        echo "$secondpartsecretkey" > id_ed25519.pub
+
+        cd ..
+
+        # replace the text in the sample .env we just made with actual values
+        # replace the blank FQDN and secret key
+
+        # define the line to replace with
+        var="RUSTDESK_FQDN=$RUSTFQDN"
+        var2="RUSTDESK_SECRET_KEY=$secondpartsecretkey"
+
+        # Define the line to search for (be replaced)
+        search_line="RUSTDESK_FQDN="
+        search_line2="RUSTDESK_SECRET_KEY="
+
+        # Define the file to modify
+        file=".env"
+
+        # Use awk to replace the line
+        awk -v var="$var" '/'"$search_line"'/ { $0 = var } 1' "$file" > temp && mv temp "$file"
+        awk -v var2="$var2" '/'"$search_line2"'/ { $0 = var2 } 1' "$file" > temp && mv temp "$file"
+        
+        sleep 3s
+
+        echo "    4. Running the docker-compose.yml to pull and start the RustDesk Server..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        currDir=$(pwd)
+
+        echo "    5. Your RustDesk server should now be running."
+        echo ""
+        echo "      You can setup a RustDesk client with the FQDN you provided,"
+        echo "      and the secret key: $secondpartsecretkey "
+        echo ""
+        echo "      If needed you can find this key again with the command:"
+        echo "          cat $currDir/hbbs/id_ed25119.pub"
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$KUMA" == [yY] ]]; then
+        echo "##########################################"
+        echo "###         Installing Uptime Kuma     ###"
+        echo "##########################################"
+    
+        # pull an uptime kuma docker-compose file from gitlab
+        echo ""
+        echo ""
+        echo "    1. Pulling a the Uptime Kuma docker-compose.yml file."
+
+        mkdir -p docker/uptime-kuma
+        cd docker/uptime-kuma
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_uptime_kuma.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo ""
+        echo ""
+        echo "    2. Running the docker-compose.yml to pull and start Uptime Kuma..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    3. You can find the Uptime Kuma folder at ~/docker/uptime-kuma..."
+        echo ""
+        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      port number 3001 to reach the Uptime Kuma login page."
+        echo ""
+        echo "      You'll create your initial user as an admin on the first login."
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$BESZEL" == [yY] ]]; then
+        echo "##########################################"
+        echo "###         Installing Beszel          ###"
+        echo "##########################################"
+    
+        # pull an uptime kuma docker-compose file from gitlab
+        echo ""
+        echo ""
+        echo "    1. Pulling a the Uptime Kuma docker-compose.yml file."
+
+        mkdir -p docker/beszel
+        cd docker/beszel
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_beszel.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo ""
+        echo ""
+        echo "    2. Running the docker-compose.yml to pull and start Uptime Kuma..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    3. You can find the Beszel folder at ~/docker/beszel..."
+        echo ""
+        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      port number 8090 to reach the Uptime Kuma login page."
+        echo ""
+        echo "      You'll create your initial user as an admin on the first login."
         echo ""
         echo ""
         sleep 3s
@@ -548,9 +888,9 @@ echo ""
 echo ""
 echo "    From some basic information on your system, you appear to be running: "
 echo "        --  OS Name        " $(lsb_release -i)
-echo "        --  Description    " $(lsb_release -d)
-echo "        --  OS Version     " $(lsb_release -r)
-echo "        --  Code Name      " $(lsb_release -c)
+echo "        --  Description        " $(lsb_release -d)
+echo "        --  OS Version        " $(lsb_release -r)
+echo "        --  Code Name        " $(lsb_release -c)
 echo ""
 echo "------------------------------------------------------"
 echo ""
