@@ -80,7 +80,7 @@ startInstall()
 
     if [[ "$OS" == "7" ]]; then
         echo "    1. Installing System Updates..."
-        (sudo apt update  && sudoa apt upgrade -y) > ~/docker-script-install.loc 2>&1 &
+        (sudo apt update  && sudo apt upgrade -y) > ~/docker-script-install.loc 2>&1 &
         ## Show a spinner for activity progress
         pid=$   # Process ID of the previous running command
         spin='-\|/'
@@ -143,7 +143,7 @@ startInstall()
 
     if [[ "$OS" == [234] ]]; then
         echo "    1. Installing System Updates... this may take a while...be patient. If it is being done on a Digial Ocean VPS, you should run updates before running this script."
-        (sudo apt update && sudo apt upgrade -y) > ~/docker-script-install.log 2>&1 &
+        (sudo apt update && sudo apt upgrade -y && sudo apt  install docker-compose) > ~/docker-script-install.log 2>&1 &
         ## Show a spinner for activity progress
         pid=$! # Process Id of the previous running command
         spin='-\|/'
