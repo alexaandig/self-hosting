@@ -1,3 +1,14 @@
+# Use postgres/example user/password credentials
+version: '3.8'
+
+volumes:
+  database-data:
+
+networks:
+  default:
+    name: my-main-net
+    external: true
+
 services:
   database:
     container_name: database
@@ -6,6 +17,8 @@ services:
     volumes:
       - database-data:/var/lib/postgresql/data/
     env_file: .env
+    networks:
+      - my-main-net
 
   calcom:
     image: calcom.docker.scarf.sh/calcom/cal.com
@@ -21,7 +34,10 @@ services:
         CALENDSO_ENCRYPTION_KEY: ${CALENDSO_ENCRYPTION_KEY}
         DATABASE_URL: ${DATABASE_URL}
         DATABASE_DIRECT_URL: ${DATABASE_URL}
+      network: my-main-net
     restart: always
+    networks:
+      - my-main-net
     ports:
       - 3000:3000
     env_file: .env
@@ -31,7 +47,22 @@ services:
     depends_on:
       - database
 
-networks:
-  default:
-    name: my-main-net
-    external: true
+# Optional use of Prisma Studio. In production, comment out or remove the section below to prevent unwanted access to your database.
+  studio:
+    image: calcom.docker.scarf.sh/calcom/cal.com
+    restart: always
+    networks:
+      - stack
+    ports:
+      - 5555:5555
+    env_file: .env
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DATABASE_HOST}/${POSTGRES_DB}
+      - DATABASE_DIRECT_URL=${DATABASE_URL}
+    depends_on:
+      - database
+    command:
+      - npx
+      - prisma
+      - studio
+# END SECTION: Optional use of Prisma Studio.
