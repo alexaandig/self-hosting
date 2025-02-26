@@ -8,7 +8,7 @@ I got tired of running individual commands all the time, so I created some scrip
 
 You can use the script by simply pulling it down with wget or curl, changing the permissions, and running it. 
 
-'⚠⚠NOTE: Run `sudo apt update && sudo apt upgrade -y`
+'⚠⚠NOTE: Run `sudo apt update && sudo apt upgrade -y` before running the script below.
 
 1. Pull down a copy with the command
 
