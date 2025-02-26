@@ -40,8 +40,6 @@ installApps()
     if [[ "$INSTALLAPPS" == [yY] ]]; then
         read -rp "NGinX Proxy Manager (y/n): " NPM
         read -rp "Portainer-CE (y/n): " PTAIN
-        read -rp "Beszel Monitoring Hub - a lightweight system mointoring solution (y/n): " BESZEL
-        read -rp "Calcom - The open-source Calendly alternative. (Docker Edition) (y/n): " CALCOM
     fi
 
     if [[ "$PTAIN" == [yY] ]]; then
@@ -525,82 +523,6 @@ startInstall()
         echo "    From Portainer or Portainer-CE add this Agent instance via the 'Endpoints' option in the left menu."
         echo "       ####     Use the IP address of this server and port 9001"
         echo ""
-        echo ""
-        echo ""
-        sleep 3s
-        cd
-    fi
-
-    if [[ "$CALCOM" == [yY] ]]; then
-        echo "##########################################"
-        echo "###          Install Calcom          ###"
-        echo "##########################################"
-
-        echo "    Starting the Calcom Install..."
-        echo ""
-        echo ""
-        sleep 3s
-
-        # Clone the Cal.com Docker repository
-        echo "    1. Cloning the Cal.com Docker repository..."
-        git clone https://github.com/calcom/docker.git calcom-docker
-        cd calcom-docker
-
-        # Copy the example env file and modify it
-        echo "    2. Preparing the configuration file..."
-        cp .env.example .env
-
-        # Optionally, pre-pull the images
-        echo "    3. Pulling Docker images..."
-        docker compose pull >> ~/docker-script-install.log 2>&1
-
-        # Start Cal.com using Docker Compose
-        echo "    4. Starting Cal.com..."
-        docker compose up -d >> ~/docker-script-install.log 2>&1
-
-        echo "    5. Navigate to your server hostname / IP address on port 3000, unless you changed it"
-        echo ""
-        echo "      Follow the setup wizard to create your first user."
-        echo ""
-        echo "      Remember to configure your reverse proxy if needed."
-        echo ""
-        sleep 3s
-        cd
-    fi
-
-
-    if [[ "$BESZEL" == [yY] ]]; then
-        echo "##########################################"
-        echo "###         Installing Beszel          ###"
-        echo "##########################################"
-    
-        # pull an uptime kuma docker-compose file from gitlab
-        echo ""
-        echo ""
-        echo "    1. Pulling a the Uptime Kuma docker-compose.yml file."
-
-        mkdir -p docker/beszel
-        cd docker/beszel
-
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_beszel.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-
-        echo ""
-        echo ""
-        echo "    2. Running the docker-compose.yml to pull and start Uptime Kuma..."
-        echo ""
-
-        if [[ "$OS" == "1" ]]; then
-          docker compose up -d
-        else
-          sudo docker compose up -d
-        fi
-
-        echo "    3. You can find the Beszel folder at ~/docker/beszel..."
-        echo ""
-        echo "      You can now navigate in your browser to your server IP at"
-        echo "      port number 8090 to reach the Uptime Kuma login page."
-        echo ""
-        echo "      You'll create your initial user as an admin on the first login."
         echo ""
         echo ""
         sleep 3s
