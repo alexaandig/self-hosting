@@ -446,7 +446,7 @@ startInstall()
         mkdir -p docker/nginx-proxy-manager
         cd docker/nginx-proxy-manager
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
         echo ""
@@ -485,7 +485,7 @@ startInstall()
         #sudo docker volume create portainer_data >> ~/docker-script-install.log 2>&1
         mkdir -p docker/portainer/portainer_data
         cd docker/portainer
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
 
         if [[ "$OS" == "1" ]]; then
@@ -516,7 +516,7 @@ startInstall()
         sudo docker volume create portainer_data
         mkdir -p docker/portainer
         cd docker/portainer
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
         
         if [[ "$OS" == "1" ]]; then
@@ -545,7 +545,7 @@ startInstall()
         mkdir -p docker/navidrome
         cd docker/navidrome
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start Navidrome"
         echo ""
@@ -584,11 +584,11 @@ startInstall()
         mkdir -p docker/remotely
         cd docker/remotely
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_remotely.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_remotely.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         
         echo "    2. Pulling the necessary environment variable file..."
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/remotely_env -o .env >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/remotely_env -o .env >> ~/docker-script-install.log 2>&1
         
         # replace the existing default password with our randomly generated db password
         # Define the line to replace with
@@ -637,7 +637,7 @@ startInstall()
         mkdir -p docker/guacamole
         cd docker/guacamole
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_guacamole.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_guacamole.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo ""
@@ -682,12 +682,12 @@ startInstall()
         mkdir -p docker/rustdesk/{hbbr,hbbs}
         cd docker/rustdesk
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_rustdesk-server.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_rustdesk-server.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo ""
         echo "    2. Pulling the environment variable file needed (.env)..."
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/rustdesk_env -o .env >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/rustdesk_env -o .env >> ~/docker-script-install.log 2>&1
         echo ""
         echo ""
         echo "    3. Creating your encryption key..."
@@ -762,7 +762,7 @@ startInstall()
         mkdir -p docker/uptime-kuma
         cd docker/uptime-kuma
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_uptime_kuma.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_uptime_kuma.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo ""
@@ -800,7 +800,7 @@ startInstall()
         mkdir -p docker/beszel
         cd docker/beszel
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_beszel.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_beszel.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo ""

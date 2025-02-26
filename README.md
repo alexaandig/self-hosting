@@ -10,7 +10,7 @@ You can use the script by simply pulling it down with wget or curl, changing the
 
 1. Pull down a copy with the command
 
-`wget -O install-docker.sh https://gitlab.com/bmcgonag/docker_installs/-/raw/main/install_docker_nproxyman.sh?ref_type=heads`
+`wget -O install-docker.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/install_docker_nproxyman.sh?ref_type=heads`
 
 2. Change the permission to make the file executable:
 
