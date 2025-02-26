@@ -1,8 +1,9 @@
 # docker_installs
 This script will help install any, or all, of Docker-CE, Docker-Compose, NGinX Proxy Manager, and Portainer-CE.
 
-## Reason for Making this Script
-I got tired of running individual commands all the time, so I created some scripts to make this very easy. 
+## BEFORE RUNNING THIS SCRIPT
+
+Run `sudo apt update && sudo apt upgrade -y`
 
 ## Using this script
 
