@@ -41,7 +41,6 @@ installApps()
         read -rp "NGinX Proxy Manager (y/n): " NPM
         read -rp "Navidrome (y/n): " NAVID
         read -rp "Portainer-CE (y/n): " PTAIN
-        read -rp "Calcom (y/n): " CALCOM
         read -rp "Remotely - Remote Desktop Support (y/n): " REMOTELY
         read -rp "Guacamole - Remote Desktop Protocol in the Browser (y/n): " GUAC
         read -rp "Uptime Kuma - An Uptime Monitor with Notifications (y/n): " KUMA
@@ -619,51 +618,6 @@ startInstall()
         echo "      You will likely want to create a reverse proxy entry in NGinX Proxy Manager"
         echo "      for your new Remotely server.  If so, also make sure to set the"
         echo "      'Require https' option in the Remotely Settings to true (checked)."
-        echo ""
-        echo ""
-        sleep 3s
-        cd
-    fi
-
-    if [[ "$CALCOM" == [yY] ]]; then
-        echo "##########################################"
-        echo "###          Install Calcom          ###"
-        echo "##########################################"
-    
-        echo "    Starging the Calcom Install..."
-        echo ""
-        echo ""
-        sleep 3s
-
-        # pull a calcom docker-compose file from gitlab
-        echo "    1. Pulling a default Calcom docker-compose.yml file."
-
-        mkdir -p docker/calcom
-        cd docker/calcom
-
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_calcom.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-        
-        echo "    2. Pulling the necessary environment variable file..."
-
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/calcom_env -o .env >> ~/docker-script-install.log 2>&1
-
-        echo "    3. Running the docker-compose.yml to pull and start Calcom..."
-        echo ""
-
-        if [[ "$OS" == "1" ]]; then
-          docker compose up -d
-        else
-          sudo docker compose up -d
-        fi
-
-        echo "    4. You can find the Calcom folder at ~/docker/calcom..."
-        echo ""
-        echo "      Navigate to your server hostname / IP address on port 3000, unless you changed it,"
-        echo "      to setup your new Calcom installation."
-        echo ""
-        echo "      You will likely want to create a reverse proxy entry in NGinX Proxy Manager"
-        echo "      for your new Calcom server.  If so, also make sure to set the"
-        echo "      'Require https' option in the Calcom Settings to true (checked)."
         echo ""
         echo ""
         sleep 3s
