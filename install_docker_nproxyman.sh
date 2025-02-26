@@ -437,8 +437,8 @@ startInstall()
         # pull an nginx proxy manager docker-compose file from github
         echo "    1. Pulling a default NGinX Proxy Manager docker-compose.yml file."
 
-        mkdir -p docker/nginx-proxy-manager
-        cd docker/nginx-proxy-manager
+        mkdir -p docker-install/nginx-proxy-manager
+        cd docker-install/nginx-proxy-manager
 
         curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
@@ -477,8 +477,8 @@ startInstall()
         echo "    3. You can find Portainer-CE files in ./docker/portainer"
 
         #sudo docker volume create portainer_data >> ~/docker-script-install.log 2>&1
-        mkdir -p docker/portainer/portainer_data
-        cd docker/portainer
+        mkdir -p docker-install/portainer/portainer_data
+        cd docker-install/portainer
         curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
 
@@ -508,8 +508,8 @@ startInstall()
         echo "    3. You can find Portainer-Agent files in ./docker/portainer"
 
         sudo docker volume create portainer_data
-        mkdir -p docker/portainer
-        cd docker/portainer
+        mkdir -p docker-install/portainer
+        cd docker-install/portainer
         curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
         
@@ -548,9 +548,9 @@ echo ""
 echo ""
 echo "    From some basic information on your system, you appear to be running: "
 echo "        --  OS Name        " $(lsb_release -i)
-echo "        --  Description        " $(lsb_release -d)
-echo "        --  OS Version        " $(lsb_release -r)
-echo "        --  Code Name        " $(lsb_release -c)
+echo "        --  Description    " $(lsb_release -d)
+echo "        --  OS Version     " $(lsb_release -r)
+echo "        --  Code Name      " $(lsb_release -c)
 echo ""
 echo "------------------------------------------------------"
 echo ""
