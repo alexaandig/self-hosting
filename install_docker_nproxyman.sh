@@ -535,61 +535,39 @@ startInstall()
         echo "##########################################"
         echo "###          Install Calcom          ###"
         echo "##########################################"
-    
-        echo "    Starging the Calcom Install..."
+
+        echo "    Starting the Calcom Install..."
         echo ""
         echo ""
         sleep 3s
-        echo "    Creating a random password for Postrgres."
-        postgrespw=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
-        # pull a calcom docker-compose file from gitlab
-        echo "    1. Pulling a default Calcom docker-compose.yml file."
+        # Clone the Cal.com Docker repository
+        echo "    1. Cloning the Cal.com Docker repository..."
+        git clone https://github.com/calcom/docker.git calcom-docker
+        cd calcom-docker
 
-        mkdir -p docker/calcom
-        cd docker/calcom
+        # Copy the example env file and modify it
+        echo "    2. Preparing the configuration file..."
+        cp .env.example .env
 
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_calcom.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-        
-        echo "    2. Pulling the necessary environment variable file..."
+        # Optionally, pre-pull the images
+        echo "    3. Pulling Docker images..."
+        docker compose pull >> ~/docker-script-install.log 2>&1
 
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/calcom_env -o .env >> ~/docker-script-install.log 2>&1
-        
-        # replace the existing default password with our randomly generated db password
-        # Define the line to replace with
-        var="POSTGRES_PASSWORD=$postgrespw"
+        # Start Cal.com using Docker Compose
+        echo "    4. Starting Cal.com..."
+        docker compose up -d >> ~/docker-script-install.log 2>&1
 
-        # Define the line to search for (to be replaced)
-        search_line="POSTGRES_PASSWORD=magical_password"
-
-        # Define the file to modify
-        file=".env"
-
-        # Use awk to replace the line
-        awk -v var="$var" '/'"$search_line"'/ { $0 = var } 1' "$file" > temp && mv temp "$file"
-
-        echo "    3. Running the docker-compose.yml to pull and start Calcom..."
+        echo "    5. Navigate to your server hostname / IP address on port 3000, unless you changed it"
         echo ""
-
-        if [[ "$OS" == "1" ]]; then
-          docker compose up -d
-        else
-          sudo docker compose up -d
-        fi
-
-        echo "    4. You can find the Calcom folder at ~/docker/calcom..."
+        echo "      Follow the setup wizard to create your first user."
         echo ""
-        echo "      Navigate to your server hostname / IP address on port 3000, unless you changed it,"
-        echo "      to setup your new Calcom installation."
-        echo ""
-        echo "      You will likely want to create a reverse proxy entry in NGinX Proxy Manager"
-        echo "      for your new Calcom server.  If so, also make sure to set the"
-        echo "      'Require https' option in the Calcom Settings to true (checked)."
-        echo ""
+        echo "      Remember to configure your reverse proxy if needed."
         echo ""
         sleep 3s
         cd
     fi
+
 
     if [[ "$BESZEL" == [yY] ]]; then
         echo "##########################################"
