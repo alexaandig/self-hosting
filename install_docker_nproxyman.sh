@@ -46,6 +46,7 @@ installApps()
         read -rp "Uptime Kuma - An Uptime Monitor with Notifications (y/n): " KUMA
         read -rp "RustDesk Server - a Remote Desktop / Access Relay Server (y/n): " RUST
         read -rp "Beszel Monitoring Hub - a lightweight system mointoring solution (y/n): " BESZEL
+        read -rp "Calcom - The open-source Calendly alternative. (Docker Edition): " CALCOM
     fi
 
     if [[ "$PTAIN" == [yY] ]]; then
@@ -652,7 +653,7 @@ startInstall()
 
         echo "    3. You can find the Guacamole folder at ~/docker/guacamole..."
         echo ""
-        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      You can now navigate in your browser to your server IP at"
         echo "      port number 8080 to reach the Guacamole login page."
         echo ""
         echo "      Use the default credentials to loging the first time:"
@@ -777,7 +778,7 @@ startInstall()
 
         echo "    3. You can find the Uptime Kuma folder at ~/docker/uptime-kuma..."
         echo ""
-        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      You can now navigate in your browser to your server IP at"
         echo "      port number 3001 to reach the Uptime Kuma login page."
         echo ""
         echo "      You'll create your initial user as an admin on the first login."
@@ -815,10 +816,46 @@ startInstall()
 
         echo "    3. You can find the Beszel folder at ~/docker/beszel..."
         echo ""
-        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      You can now navigate in your browser to your server IP at"
         echo "      port number 8090 to reach the Uptime Kuma login page."
         echo ""
         echo "      You'll create your initial user as an admin on the first login."
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$CALCOM" == [yY] ]]; then
+        echo "##########################################"
+        echo "###         Installing Cal.com          ###"
+        echo "##########################################"
+    
+        # pull an uptime kuma docker-compose file from gitlab
+        echo ""
+        echo ""
+        echo "    1. Pulling a the Cal.com docker_compose_calcom.yml file."
+
+        mkdir -p docker/beszel
+        cd docker/beszel
+
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_calcom.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo ""
+        echo ""
+        echo "    2. Running the docker_compose_calcom.yml to pull and start Calcom..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    3. You can find the Calcom folder at ~/docker/calcom..."
+        echo ""
+        echo "      You can now navigate in your browser to your server IP at"
+        echo "      port number 3000 to reach the Calcom login page."
         echo ""
         echo ""
         sleep 3s
