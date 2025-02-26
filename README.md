@@ -22,11 +22,6 @@ You can use the script by simply pulling it down with wget or curl, changing the
 
 `./install-docker.sh`
 
-## Contributing by making changes
-
-1. Clone the repo
-`git clone https://github.com/alexaandig/self-hosting.git`
-
 
 ## Prompts from the script:
 First, you'll be prompted to select the number for your OS / Distro.  Currently I support RaspbianOS (latest), CentOS 7 and 8, Debian 10 and 11, Ubuntu 18.04 20.04 22.04 23.04 24.04 and on, Arch Linux, and Open Suse (tested on Leap 15.4). 
@@ -49,6 +44,13 @@ Do you want
 Make that selection, and the install will continue.
 
 Answering "n" to any of them will cause them to be skipped.
+
+
+## Contributing by making changes
+
+1. Clone the repo
+`git clone https://github.com/alexaandig/self-hosting.git`
+
 
 ### NOTE
 * You must have Docker-CE (or some version of Docker) installed in order to run any of the other three packages.
