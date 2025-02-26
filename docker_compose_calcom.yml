@@ -5,7 +5,7 @@ volumes:
   database-data:
 
 networks:
-  default:
+  my-main-net:
     name: my-main-net
     external: true
 
