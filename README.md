@@ -8,6 +8,8 @@ I got tired of running individual commands all the time, so I created some scrip
 
 You can use the script by simply pulling it down with wget or curl, changing the permissions, and running it. 
 
+'⚠⚠NOTE: Run `sudo apt update && sudo apt upgrade -y`
+
 1. Pull down a copy with the command
 
 `wget -O install-docker.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/install_docker_nproxyman.sh?ref_type=heads`
