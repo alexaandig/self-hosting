@@ -38,7 +38,7 @@ installApps()
     echo ""
 
     if [[ "$INSTALLAPPS" == [yY] ]]; then
-        read -rp "NGinX Proxy Manager (y/n): " NPM
+        read -rp "NGinX Proxy Manager (y/n): " NGINX
         read -rp "Portainer-CE (y/n): " PTAIN
     fi
 
@@ -160,6 +160,8 @@ startInstall()
         sleep 2s
 
         sudo apt install curl wget git -y >> ~/docker-script-install.log 2>&1
+        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash - 
+        sudo apt-get install -y nodejs
         
         if [[ "$ISACT" != "active" ]]; then
             echo "    3. Installing Docker-CE (Community Edition)..."
@@ -429,7 +431,7 @@ startInstall()
     # move to home directory of user
     cd
 
-    if [[ "$NPM" == [yY] ]]; then
+    if [[ "$NGINX" == [yY] ]]; then
         echo "##########################################"
         echo "###     Install NGinX Proxy Manager    ###"
         echo "##########################################"
