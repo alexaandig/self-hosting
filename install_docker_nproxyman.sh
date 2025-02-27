@@ -33,14 +33,34 @@ installApps()
         echo ""
     fi
 
-    read -rp "Do you want to choose any Docker based applications to install as well? (y/n): " INSTALLAPPS
-    echo ""
-    echo ""
-
-    if [[ "$INSTALLAPPS" == [yY] ]]; then
+    if [[ "$NPM" == *"command not found"* ]]; then
         read -rp "NGinX Proxy Manager (y/n): " NPM
-        read -rp "Portainer-CE (y/n): " PTAIN
+        echo ""
+        echo ""
+    else
+        echo "NGinX Proxy Manager appears to be installed."
+        echo ""
+        echo ""
     fi
+
+    if [[ "$PTAIN" == *"command not found"* ]]; then
+        read -rp "Portainer-CE (y/n): " PTAIN
+        echo ""
+        echo ""
+    else
+        echo "Portainer-CE appears to be installed."
+        echo ""
+        echo ""
+    fi
+
+    # read -rp "Do you want to choose any Docker based applications to install as well? (y/n): " INSTALLAPPS
+    # echo ""
+    # echo ""
+
+    # if [[ "$INSTALLAPPS" == [yY] ]]; then
+    #     read -rp "NGinX Proxy Manager (y/n): " NPM
+    #     read -rp "Portainer-CE (y/n): " PTAIN
+    # fi
 
     if [[ "$PTAIN" == [yY] ]]; then
         echo ""
