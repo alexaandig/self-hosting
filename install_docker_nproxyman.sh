@@ -4,10 +4,10 @@ installApps()
 {
     clear
     OS="$REPLY" ## <-- This $REPLY is about OS Selection
-    echo "Installation for Docker-CE, Docker-Compose, NGinX Proxy Manager, Portainer-CE, Nodejs and NPM."
+    echo "We can install Docker-CE, Docker-Compose, NGinX Proxy Manager, and Portainer-CE."
     echo "Please select 'y' for each item you would like to install."
     echo "NOTE: Without Docker you cannot use Docker-Compose, NGinx Proxy Manager, or Portainer-CE."
-    echo "      You also must have Docker-Compose for NGinX Proxy Manager to be installed."
+    echo "       You also must have Docker-Compose for NGinX Proxy Manager to be installed."
     echo ""
     echo ""
     
@@ -38,7 +38,7 @@ installApps()
     echo ""
 
     if [[ "$INSTALLAPPS" == [yY] ]]; then
-        read -rp "NGinX Proxy Manager (y/n): " NGINX
+        read -rp "NGinX Proxy Manager (y/n): " NPM
         read -rp "Portainer-CE (y/n): " PTAIN
     fi
 
@@ -94,7 +94,7 @@ startInstall()
         printf "\r"
 
         echo "    2. Install Prerequisite Packages..."
-        (sudo apt install curl wget git nodejs npm -y) >> ~/docker-script-install.log 2>&1
+        (sudo apt install curl wget git -y) >> ~/docker-script-install.log 2>&1
         ## Spinner time...
         pid=$   # Process ID of the previous running command
         spin='-\|/'
@@ -159,7 +159,7 @@ startInstall()
         echo "    2. Install Prerequisite Packages..."
         sleep 2s
 
-        sudo apt install curl wget git nodejs npm -y >> ~/docker-script-install.log 2>&1
+        sudo apt install curl wget git -y >> ~/docker-script-install.log 2>&1
         
         if [[ "$ISACT" != "active" ]]; then
             echo "    3. Installing Docker-CE (Community Edition)..."
@@ -429,22 +429,19 @@ startInstall()
     # move to home directory of user
     cd
 
-    if [[ "$NGINX" == [yY] ]]; then
+    if [[ "$NPM" == [yY] ]]; then
         echo "##########################################"
         echo "###     Install NGinX Proxy Manager    ###"
         echo "##########################################"
     
         # pull an nginx proxy manager docker-compose file from github
-        echo ""
-        echo ""
         echo "    1. Pulling a default NGinX Proxy Manager docker-compose.yml file."
 
         mkdir -p docker/nginx-proxy-manager
         cd docker/nginx-proxy-manager
 
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-        echo ""
-        echo ""
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
         echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
         echo ""
         echo ""
@@ -463,6 +460,7 @@ startInstall()
         echo "    The default login credentials for NGinX Proxy Manager are:"
         echo "        username: admin@example.com"
         echo "        password: changeme"
+
         echo ""       
         sleep 3s
         cd
@@ -481,7 +479,7 @@ startInstall()
         #sudo docker volume create portainer_data >> ~/docker-script-install.log 2>&1
         mkdir -p docker/portainer/portainer_data
         cd docker/portainer
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
 
         if [[ "$OS" == "1" ]]; then
@@ -512,7 +510,7 @@ startInstall()
         sudo docker volume create portainer_data
         mkdir -p docker/portainer
         cd docker/portainer
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
         
         if [[ "$OS" == "1" ]]; then
@@ -550,9 +548,9 @@ echo ""
 echo ""
 echo "    From some basic information on your system, you appear to be running: "
 echo "        --  OS Name        " $(lsb_release -i)
-echo "        --  Description    " $(lsb_release -d)
-echo "        --  OS Version     " $(lsb_release -r)
-echo "        --  Code Name      " $(lsb_release -c)
+echo "        --  Description        " $(lsb_release -d)
+echo "        --  OS Version        " $(lsb_release -r)
+echo "        --  Code Name        " $(lsb_release -c)
 echo ""
 echo "------------------------------------------------------"
 echo ""
