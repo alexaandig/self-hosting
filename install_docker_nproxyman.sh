@@ -159,9 +159,8 @@ startInstall()
         echo "    2. Install Prerequisite Packages..."
         sleep 2s
 
-        sudo apt install curl wget git -y >> ~/docker-script-install.log 2>&1
-        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash - 
-        sudo apt-get install -y nodejs
+        sudo apt install curl wget git nodejs -y >> ~/docker-script-install.log 2>&1
+        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash - >> ~/docker-script-install.log 2>&1
         
         if [[ "$ISACT" != "active" ]]; then
             echo "    3. Installing Docker-CE (Community Edition)..."
