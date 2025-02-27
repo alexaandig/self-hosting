@@ -1,6 +1,6 @@
-## BEFORE RUNNING THIS SCRIPT
+## UPDATE PACKAGES BEFORE RUNNING THE SCRIPT
 
-Run `sudo apt update && sudo apt upgrade -y`
+`sudo apt update && sudo apt upgrade -y`
 
 ## This script will help install Docker-CE, Docker-Compose, NGinX Proxy Manager, and Portainer-CE.
 
