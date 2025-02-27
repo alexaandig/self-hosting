@@ -4,7 +4,7 @@ installApps()
 {
     clear
     OS="$REPLY" ## <-- This $REPLY is about OS Selection
-    echo "We can install Docker-CE, Docker-Compose, NGinX Proxy Manager, and Portainer-CE."
+    echo "Installation for Docker-CE, Docker-Compose, NGinX Proxy Manager, Portainer-CE, Nodejs and NPM."
     echo "Please select 'y' for each item you would like to install."
     echo "NOTE: Without Docker you cannot use Docker-Compose, NGinx Proxy Manager, or Portainer-CE."
     echo "      You also must have Docker-Compose for NGinX Proxy Manager to be installed."
