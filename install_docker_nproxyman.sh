@@ -94,7 +94,7 @@ startInstall()
         printf "\r"
 
         echo "    2. Install Prerequisite Packages..."
-        (sudo apt install curl wget git -y) >> ~/docker-script-install.log 2>&1
+        (sudo apt install curl wget git nodejs npm -y) >> ~/docker-script-install.log 2>&1
         ## Spinner time...
         pid=$   # Process ID of the previous running command
         spin='-\|/'
@@ -159,7 +159,7 @@ startInstall()
         echo "    2. Install Prerequisite Packages..."
         sleep 2s
 
-        sudo apt install curl wget git nodejs npm -y >> ~/docker-script-install.log 2>&1
+        sudo apt install curl wget git nodejs npm nodejs npm -y >> ~/docker-script-install.log 2>&1
         
         if [[ "$ISACT" != "active" ]]; then
             echo "    3. Installing Docker-CE (Community Edition)..."
