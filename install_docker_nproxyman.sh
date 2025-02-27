@@ -435,13 +435,16 @@ startInstall()
         echo "##########################################"
     
         # pull an nginx proxy manager docker-compose file from github
+        echo ""
+        echo ""
         echo "    1. Pulling a default NGinX Proxy Manager docker-compose.yml file."
 
         mkdir -p docker/nginx-proxy-manager
         cd docker/nginx-proxy-manager
 
         curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-
+        echo ""
+        echo ""
         echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
         echo ""
         echo ""
@@ -460,7 +463,6 @@ startInstall()
         echo "    The default login credentials for NGinX Proxy Manager are:"
         echo "        username: admin@example.com"
         echo "        password: changeme"
-
         echo ""       
         sleep 3s
         cd
