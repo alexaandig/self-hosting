@@ -33,33 +33,33 @@ installApps()
         echo ""
     fi
 
-    read -rp "Do you want to choose any Docker based applications to install as well? (y/n): " INSTALLAPPS
-    echo ""
-    echo ""
+    # read -rp "Do you want to choose any Docker based applications to install as well? (y/n): " INSTALLAPPS
+    # echo ""
+    # echo ""
 
-    if [[ "$INSTALLAPPS" == [yY] ]]; then
-        read -rp "NGinX Proxy Manager (y/n): " NPM
-        read -rp "Portainer-CE (y/n): " PTAIN
-    fi
+    # if [[ "$INSTALLAPPS" == [yY] ]]; then
+    #     read -rp "NGinX Proxy Manager (y/n): " NPM
+    #     read -rp "Portainer-CE (y/n): " PTAIN
+    # fi
 
-    if [[ "$PTAIN" == [yY] ]]; then
-        echo ""
-        echo ""
-        PS3="Please choose either Portainer-CE or just Portainer Agent: "
-        select _ in \
-            " Full Portainer-CE (Web GUI for Docker, Swarm, and Kubernetes)" \
-            " Portainer Agent - Remote Agent to Connect from Portainer-CE" \
-            " Nevermind -- I don't need Portainer after all."
-        do
-            PORT="$REPLY"
-            case $REPLY in
-                1) startInstall ;;
-                2) startInstall ;;
-                3) startInstall ;;
-                *) echo "Invalid selection, please try again..." ;;
-            esac
-        done
-    fi
+    # if [[ "$PTAIN" == [yY] ]]; then
+    #     echo ""
+    #     echo ""
+    #     PS3="Please choose either Portainer-CE or just Portainer Agent: "
+    #     select _ in \
+    #         " Full Portainer-CE (Web GUI for Docker, Swarm, and Kubernetes)" \
+    #         " Portainer Agent - Remote Agent to Connect from Portainer-CE" \
+    #         " Nevermind -- I don't need Portainer after all."
+    #     do
+    #         PORT="$REPLY"
+    #         case $REPLY in
+    #             1) startInstall ;;
+    #             2) startInstall ;;
+    #             3) startInstall ;;
+    #             *) echo "Invalid selection, please try again..." ;;
+    #         esac
+    #     done
+    # fi
     
     startInstall
 }
@@ -429,105 +429,105 @@ startInstall()
     # move to home directory of user
     cd
 
-    if [[ "$NPM" == [yY] ]]; then
-        echo "##########################################"
-        echo "###     Install NGinX Proxy Manager    ###"
-        echo "##########################################"
+    # if [[ "$NPM" == [yY] ]]; then
+    #     echo "##########################################"
+    #     echo "###     Install NGinX Proxy Manager    ###"
+    #     echo "##########################################"
     
-        # pull an nginx proxy manager docker-compose file from github
-        echo "    1. Pulling a default NGinX Proxy Manager docker-compose.yml file."
+    #     # pull an nginx proxy manager docker-compose file from github
+    #     echo "    1. Pulling a default NGinX Proxy Manager docker-compose.yml file."
 
-        mkdir -p docker/nginx-proxy-manager
-        cd docker/nginx-proxy-manager
+    #     mkdir -p docker/nginx-proxy-manager
+    #     cd docker/nginx-proxy-manager
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+    #     curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
-        echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
-        echo ""
-        echo ""
+    #     echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
+    #     echo ""
+    #     echo ""
 
-        if [[ "$OS" == "1" ]]; then
-          docker compose up -d
-        else
-          sudo docker compose up -d
-        fi
+    #     if [[ "$OS" == "1" ]]; then
+    #       docker compose up -d
+    #     else
+    #       sudo docker compose up -d
+    #     fi
 
-        echo "    3. You can find NGinX Proxy Manager files at ./docker/nginx-proxy-manager"
-        echo ""
-        echo "    Navigate to your server hostname / IP address on port 81 to setup"
-        echo "    NGinX Proxy Manager admin account."
-        echo ""
-        echo "    The default login credentials for NGinX Proxy Manager are:"
-        echo "        username: admin@example.com"
-        echo "        password: changeme"
+    #     echo "    3. You can find NGinX Proxy Manager files at ./docker/nginx-proxy-manager"
+    #     echo ""
+    #     echo "    Navigate to your server hostname / IP address on port 81 to setup"
+    #     echo "    NGinX Proxy Manager admin account."
+    #     echo ""
+    #     echo "    The default login credentials for NGinX Proxy Manager are:"
+    #     echo "        username: admin@example.com"
+    #     echo "        password: changeme"
 
-        echo ""       
-        sleep 3s
-        cd
-    fi
+    #     echo ""       
+    #     sleep 3s
+    #     cd
+    # fi
 
-    if [[ "$PORT" == "1" ]]; then
-        echo "########################################"
-        echo "###      Installing Portainer-CE     ###"
-        echo "########################################"
-        echo ""
-        echo "    1. Preparing to Install Portainer-CE"
-        echo ""
-        echo "    2. Creating the folder structure for Portainer."
-        echo "    3. You can find Portainer-CE files in ./docker/portainer"
+    # if [[ "$PORT" == "1" ]]; then
+    #     echo "########################################"
+    #     echo "###      Installing Portainer-CE     ###"
+    #     echo "########################################"
+    #     echo ""
+    #     echo "    1. Preparing to Install Portainer-CE"
+    #     echo ""
+    #     echo "    2. Creating the folder structure for Portainer."
+    #     echo "    3. You can find Portainer-CE files in ./docker/portainer"
 
-        #sudo docker volume create portainer_data >> ~/docker-script-install.log 2>&1
-        mkdir -p docker/portainer/portainer_data
-        cd docker/portainer
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-        echo ""
+    #     #sudo docker volume create portainer_data >> ~/docker-script-install.log 2>&1
+    #     mkdir -p docker/portainer/portainer_data
+    #     cd docker/portainer
+    #     curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+    #     echo ""
 
-        if [[ "$OS" == "1" ]]; then
-          docker compose up -d
-        else
-          sudo docker compose up -d
-        fi
+    #     if [[ "$OS" == "1" ]]; then
+    #       docker compose up -d
+    #     else
+    #       sudo docker compose up -d
+    #     fi
 
-        echo ""
-        echo "    Navigate to your server hostname / IP address on port 9000 and create your admin account for Portainer-CE"
+    #     echo ""
+    #     echo "    Navigate to your server hostname / IP address on port 9000 and create your admin account for Portainer-CE"
 
-        echo ""
-        echo ""
-        echo ""
-        sleep 3s
-        cd
-    fi
+    #     echo ""
+    #     echo ""
+    #     echo ""
+    #     sleep 3s
+    #     cd
+    # fi
 
-    if [[ "$PORT" == "2" ]]; then
-        echo "###########################################"
-        echo "###      Installing Portainer Agent     ###"
-        echo "###########################################"
-        echo ""
-        echo "    1. Preparing to install Portainer Agent"
-        echo "    2. Creating the folder structure for Portainer."
-        echo "    3. You can find Portainer-Agent files in ./docker/portainer"
+    # if [[ "$PORT" == "2" ]]; then
+    #     echo "###########################################"
+    #     echo "###      Installing Portainer Agent     ###"
+    #     echo "###########################################"
+    #     echo ""
+    #     echo "    1. Preparing to install Portainer Agent"
+    #     echo "    2. Creating the folder structure for Portainer."
+    #     echo "    3. You can find Portainer-Agent files in ./docker/portainer"
 
-        sudo docker volume create portainer_data
-        mkdir -p docker/portainer
-        cd docker/portainer
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-        echo ""
+    #     sudo docker volume create portainer_data
+    #     mkdir -p docker/portainer
+    #     cd docker/portainer
+    #     curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+    #     echo ""
         
-        if [[ "$OS" == "1" ]]; then
-          docker compose up -d
-        else
-          sudo docker compose up -d
-        fi
+    #     if [[ "$OS" == "1" ]]; then
+    #       docker compose up -d
+    #     else
+    #       sudo docker compose up -d
+    #     fi
 
-        echo ""
-        echo "    From Portainer or Portainer-CE add this Agent instance via the 'Endpoints' option in the left menu."
-        echo "       ####     Use the IP address of this server and port 9001"
-        echo ""
-        echo ""
-        echo ""
-        sleep 3s
-        cd
-    fi
+    #     echo ""
+    #     echo "    From Portainer or Portainer-CE add this Agent instance via the 'Endpoints' option in the left menu."
+    #     echo "       ####     Use the IP address of this server and port 9001"
+    #     echo ""
+    #     echo ""
+    #     echo ""
+    #     sleep 3s
+    #     cd
+    # fi
 
     echo "All docker applications have been added to the docker network my-main-net"
     echo ""
