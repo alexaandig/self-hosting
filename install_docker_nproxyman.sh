@@ -39,13 +39,13 @@ installApps()
 
     if [[ "$INSTALLAPPS" == [yY] ]]; then
         read -rp "NGinX Proxy Manager (y/n): " NPM
-        read -rp "Navidrome (y/n): " NAVID
+    #    read -rp "Navidrome (y/n): " NAVID
         read -rp "Portainer-CE (y/n): " PTAIN
-        read -rp "Remotely - Remote Desktop Support (y/n): " REMOTELY
-        read -rp "Guacamole - Remote Desktop Protocol in the Browser (y/n): " GUAC
-        read -rp "Uptime Kuma - An Uptime Monitor with Notifications (y/n): " KUMA
-        read -rp "RustDesk Server - a Remote Desktop / Access Relay Server (y/n): " RUST
-        read -rp "Beszel Monitoring Hub - a lightweight system mointoring solution (y/n): " BESZEL
+    #    read -rp "Remotely - Remote Desktop Support (y/n): " REMOTELY
+    #    read -rp "Guacamole - Remote Desktop Protocol in the Browser (y/n): " GUAC
+    #    read -rp "Uptime Kuma - An Uptime Monitor with Notifications (y/n): " KUMA
+    #    read -rp "RustDesk Server - a Remote Desktop / Access Relay Server (y/n): " RUST
+    #    read -rp "Beszel Monitoring Hub - a lightweight system mointoring solution (y/n): " BESZEL
     fi
 
     if [[ "$PTAIN" == [yY] ]]; then
