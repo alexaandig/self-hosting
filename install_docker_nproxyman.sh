@@ -39,27 +39,33 @@ installApps()
 
     if [[ "$INSTALLAPPS" == [yY] ]]; then
         read -rp "NGinX Proxy Manager (y/n): " NPM
+        read -rp "Navidrome (y/n): " NAVID
         read -rp "Portainer-CE (y/n): " PTAIN
-    # fi
+        read -rp "Remotely - Remote Desktop Support (y/n): " REMOTELY
+        read -rp "Guacamole - Remote Desktop Protocol in the Browser (y/n): " GUAC
+        read -rp "Uptime Kuma - An Uptime Monitor with Notifications (y/n): " KUMA
+        read -rp "RustDesk Server - a Remote Desktop / Access Relay Server (y/n): " RUST
+        read -rp "Beszel Monitoring Hub - a lightweight system mointoring solution (y/n): " BESZEL
+    fi
 
-    # if [[ "$PTAIN" == [yY] ]]; then
-    #     echo ""
-    #     echo ""
-    #     PS3="Please choose either Portainer-CE or just Portainer Agent: "
-    #     select _ in \
-    #         " Full Portainer-CE (Web GUI for Docker, Swarm, and Kubernetes)" \
-    #         " Portainer Agent - Remote Agent to Connect from Portainer-CE" \
-    #         " Nevermind -- I don't need Portainer after all."
-    #     do
-    #         PORT="$REPLY"
-    #         case $REPLY in
-    #             1) startInstall ;;
-    #             2) startInstall ;;
-    #             3) startInstall ;;
-    #             *) echo "Invalid selection, please try again..." ;;
-    #         esac
-    #     done
-    # fi
+    if [[ "$PTAIN" == [yY] ]]; then
+        echo ""
+        echo ""
+        PS3="Please choose either Portainer-CE or just Portainer Agent: "
+        select _ in \
+            " Full Portainer-CE (Web GUI for Docker, Swarm, and Kubernetes)" \
+            " Portainer Agent - Remote Agent to Connect from Portainer-CE" \
+            " Nevermind -- I don't need Portainer after all."
+        do
+            PORT="$REPLY"
+            case $REPLY in
+                1) startInstall ;;
+                2) startInstall ;;
+                3) startInstall ;;
+                *) echo "Invalid selection, please try again..." ;;
+            esac
+        done
+    fi
     
     startInstall
 }
@@ -429,105 +435,395 @@ startInstall()
     # move to home directory of user
     cd
 
-    # if [[ "$NPM" == [yY] ]]; then
-    #     echo "##########################################"
-    #     echo "###     Install NGinX Proxy Manager    ###"
-    #     echo "##########################################"
+    if [[ "$NPM" == [yY] ]]; then
+        echo "##########################################"
+        echo "###     Install NGinX Proxy Manager    ###"
+        echo "##########################################"
     
-    #     # pull an nginx proxy manager docker-compose file from github
-    #     echo "    1. Pulling a default NGinX Proxy Manager docker-compose.yml file."
+        # pull an nginx proxy manager docker-compose file from github
+        echo "    1. Pulling a default NGinX Proxy Manager docker-compose.yml file."
 
-    #     mkdir -p docker/nginx-proxy-manager
-    #     cd docker/nginx-proxy-manager
+        mkdir -p docker/nginx-proxy-manager
+        cd docker/nginx-proxy-manager
 
-    #     curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
-    #     echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
-    #     echo ""
-    #     echo ""
+        echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
+        echo ""
+        echo ""
 
-    #     if [[ "$OS" == "1" ]]; then
-    #       docker compose up -d
-    #     else
-    #       sudo docker compose up -d
-    #     fi
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
 
-    #     echo "    3. You can find NGinX Proxy Manager files at ./docker/nginx-proxy-manager"
-    #     echo ""
-    #     echo "    Navigate to your server hostname / IP address on port 81 to setup"
-    #     echo "    NGinX Proxy Manager admin account."
-    #     echo ""
-    #     echo "    The default login credentials for NGinX Proxy Manager are:"
-    #     echo "        username: admin@example.com"
-    #     echo "        password: changeme"
+        echo "    3. You can find NGinX Proxy Manager files at ./docker/nginx-proxy-manager"
+        echo ""
+        echo "    Navigate to your server hostname / IP address on port 81 to setup"
+        echo "    NGinX Proxy Manager admin account."
+        echo ""
+        echo "    The default login credentials for NGinX Proxy Manager are:"
+        echo "        username: admin@example.com"
+        echo "        password: changeme"
 
-    #     echo ""       
-    #     sleep 3s
-    #     cd
-    # fi
+        echo ""       
+        sleep 3s
+        cd
+    fi
 
-    # if [[ "$PORT" == "1" ]]; then
-    #     echo "########################################"
-    #     echo "###      Installing Portainer-CE     ###"
-    #     echo "########################################"
-    #     echo ""
-    #     echo "    1. Preparing to Install Portainer-CE"
-    #     echo ""
-    #     echo "    2. Creating the folder structure for Portainer."
-    #     echo "    3. You can find Portainer-CE files in ./docker/portainer"
+    if [[ "$PORT" == "1" ]]; then
+        echo "########################################"
+        echo "###      Installing Portainer-CE     ###"
+        echo "########################################"
+        echo ""
+        echo "    1. Preparing to Install Portainer-CE"
+        echo ""
+        echo "    2. Creating the folder structure for Portainer."
+        echo "    3. You can find Portainer-CE files in ./docker/portainer"
 
-    #     #sudo docker volume create portainer_data >> ~/docker-script-install.log 2>&1
-    #     mkdir -p docker/portainer/portainer_data
-    #     cd docker/portainer
-    #     curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-    #     echo ""
+        #sudo docker volume create portainer_data >> ~/docker-script-install.log 2>&1
+        mkdir -p docker/portainer/portainer_data
+        cd docker/portainer
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        echo ""
 
-    #     if [[ "$OS" == "1" ]]; then
-    #       docker compose up -d
-    #     else
-    #       sudo docker compose up -d
-    #     fi
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
 
-    #     echo ""
-    #     echo "    Navigate to your server hostname / IP address on port 9000 and create your admin account for Portainer-CE"
+        echo ""
+        echo "    Navigate to your server hostname / IP address on port 9000 and create your admin account for Portainer-CE"
 
-    #     echo ""
-    #     echo ""
-    #     echo ""
-    #     sleep 3s
-    #     cd
-    # fi
+        echo ""
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
 
-    # if [[ "$PORT" == "2" ]]; then
-    #     echo "###########################################"
-    #     echo "###      Installing Portainer Agent     ###"
-    #     echo "###########################################"
-    #     echo ""
-    #     echo "    1. Preparing to install Portainer Agent"
-    #     echo "    2. Creating the folder structure for Portainer."
-    #     echo "    3. You can find Portainer-Agent files in ./docker/portainer"
+    if [[ "$PORT" == "2" ]]; then
+        echo "###########################################"
+        echo "###      Installing Portainer Agent     ###"
+        echo "###########################################"
+        echo ""
+        echo "    1. Preparing to install Portainer Agent"
+        echo "    2. Creating the folder structure for Portainer."
+        echo "    3. You can find Portainer-Agent files in ./docker/portainer"
 
-    #     sudo docker volume create portainer_data
-    #     mkdir -p docker/portainer
-    #     cd docker/portainer
-    #     curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-    #     echo ""
+        sudo docker volume create portainer_data
+        mkdir -p docker/portainer
+        cd docker/portainer
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        echo ""
         
-    #     if [[ "$OS" == "1" ]]; then
-    #       docker compose up -d
-    #     else
-    #       sudo docker compose up -d
-    #     fi
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
 
-    #     echo ""
-    #     echo "    From Portainer or Portainer-CE add this Agent instance via the 'Endpoints' option in the left menu."
-    #     echo "       ####     Use the IP address of this server and port 9001"
-    #     echo ""
-    #     echo ""
-    #     echo ""
-    #     sleep 3s
-    #     cd
-    # fi
+        echo ""
+        echo "    From Portainer or Portainer-CE add this Agent instance via the 'Endpoints' option in the left menu."
+        echo "       ####     Use the IP address of this server and port 9001"
+        echo ""
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$NAVID" == [yY] ]]; then
+        echo "###########################################"
+        echo "###        Installing Navidrome         ###"
+        echo "###########################################"
+        echo ""
+        echo "    1. Preparing to install Navidrome"
+
+        mkdir -p docker/navidrome
+        cd docker/navidrome
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo "    2. Running the docker-compose.yml to install and start Navidrome"
+        echo ""
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    3. You can find your Navidrome files in ./docker/navidrome"
+        echo ""
+        echo "    Navigate to your server hostname / IP address on port 4533 to setup"
+        echo "    your new Navidrome admin account."
+        echo ""      
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$REMOTELY" == [yY] ]]; then
+        echo "##########################################"
+        echo "###          Install Remotely          ###"
+        echo "##########################################"
+    
+        echo "    Starging the Remotely Install..."
+        echo ""
+        echo ""
+        sleep 3s
+        echo "    Creating a random password for Postrgres."
+        postgrespw=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+
+        # pull a remotely docker-compose file from gitlab
+        echo "    1. Pulling a default Remotely docker-compose.yml file."
+
+        mkdir -p docker/remotely
+        cd docker/remotely
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_remotely.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        
+        echo "    2. Pulling the necessary environment variable file..."
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/remotely_env -o .env >> ~/docker-script-install.log 2>&1
+        
+        # replace the existing default password with our randomly generated db password
+        # Define the line to replace with
+        var="POSTGRES_PASSWORD=$postgrespw"
+
+        # Define the line to search for (to be replaced)
+        search_line="POSTGRES_PASSWORD=changeMe1"
+
+        # Define the file to modify
+        file=".env"
+
+        # Use awk to replace the line
+        awk -v var="$var" '/'"$search_line"'/ { $0 = var } 1' "$file" > temp && mv temp "$file"
+
+        echo "    3. Running the docker-compose.yml to pull and start Remotely..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    4. You can find the Remotely folder at ~/docker/remotely..."
+        echo ""
+        echo "      Navigate to your server hostname / IP address on port 5000, unless you changed it,"
+        echo "      to setup your new Remotely installation."
+        echo ""
+        echo "      You will likely want to create a reverse proxy entry in NGinX Proxy Manager"
+        echo "      for your new Remotely server.  If so, also make sure to set the"
+        echo "      'Require https' option in the Remotely Settings to true (checked)."
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$GUAC" == [yY] ]]; then
+        echo "##########################################"
+        echo "###         Installing Guacamole       ###"
+        echo "##########################################"
+    
+        # pull a guacamole docker-compose file from gitlab
+        echo "    1. Pulling a default Guacamole docker-compose.yml file."
+
+        mkdir -p docker/guacamole
+        cd docker/guacamole
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_guacamole.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo ""
+        echo ""
+        echo "    2. Running the docker-compose.yml to pull and start Guacamole..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    3. You can find the Guacamole folder at ~/docker/guacamole..."
+        echo ""
+        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      port number 8080 to reach the Guacamole login page."
+        echo ""
+        echo "      Use the default credentials to loging the first time:"
+        echo "          username: guacadmin"
+        echo "          password: guacadmin"
+        echo ""
+        echo "      It is highly recommended that you create a new admin user, and"
+        echo "      delete / disable the default user."
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$RUST" == [yY] ]]; then
+        echo "##########################################"
+        echo "###         Installing RustDesk        ###"
+        echo "##########################################"
+    
+        # pull a rustdesk server docker-compose file from gitlab
+        echo ""
+        read -rp "Please enter a FQDN (fully qualified domain name) or IP address for your RustDesk server (e.g. rust.mydomain.com): " RUSTFQDN
+        echo ""
+        echo ""
+        echo "    1. Pulling a the RustDesk docker-compose.yml file."
+
+        mkdir -p docker/rustdesk/{hbbr,hbbs}
+        cd docker/rustdesk
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_rustdesk-server.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo ""
+        echo ""
+        echo "    2. Pulling the environment variable file needed (.env)..."
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/rustdesk_env -o .env >> ~/docker-script-install.log 2>&1
+        echo ""
+        echo ""
+        echo "    3. Creating your encryption key..."
+
+        cd hbbs
+        # generate a secret key - this is an ed25519 key
+        ssh-keygen -t ed25519 -f ./id_ed25519
+
+        yoursecretkey=$(<id_ed25519.pub)
+
+        secondpartsecretkey=$(echo "$yoursecretkey" | cut -d ' ' -f 2)
+
+        rm id_ed25519.pub
+
+        echo "$secondpartsecretkey" > id_ed25519.pub
+
+        cd ..
+
+        # replace the text in the sample .env we just made with actual values
+        # replace the blank FQDN and secret key
+
+        # define the line to replace with
+        var="RUSTDESK_FQDN=$RUSTFQDN"
+        var2="RUSTDESK_SECRET_KEY=$secondpartsecretkey"
+
+        # Define the line to search for (be replaced)
+        search_line="RUSTDESK_FQDN="
+        search_line2="RUSTDESK_SECRET_KEY="
+
+        # Define the file to modify
+        file=".env"
+
+        # Use awk to replace the line
+        awk -v var="$var" '/'"$search_line"'/ { $0 = var } 1' "$file" > temp && mv temp "$file"
+        awk -v var2="$var2" '/'"$search_line2"'/ { $0 = var2 } 1' "$file" > temp && mv temp "$file"
+        
+        sleep 3s
+
+        echo "    4. Running the docker-compose.yml to pull and start the RustDesk Server..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        currDir=$(pwd)
+
+        echo "    5. Your RustDesk server should now be running."
+        echo ""
+        echo "      You can setup a RustDesk client with the FQDN you provided,"
+        echo "      and the secret key: $secondpartsecretkey "
+        echo ""
+        echo "      If needed you can find this key again with the command:"
+        echo "          cat $currDir/hbbs/id_ed25119.pub"
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$KUMA" == [yY] ]]; then
+        echo "##########################################"
+        echo "###         Installing Uptime Kuma     ###"
+        echo "##########################################"
+    
+        # pull an uptime kuma docker-compose file from gitlab
+        echo ""
+        echo ""
+        echo "    1. Pulling a the Uptime Kuma docker-compose.yml file."
+
+        mkdir -p docker/uptime-kuma
+        cd docker/uptime-kuma
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_uptime_kuma.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo ""
+        echo ""
+        echo "    2. Running the docker-compose.yml to pull and start Uptime Kuma..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    3. You can find the Uptime Kuma folder at ~/docker/uptime-kuma..."
+        echo ""
+        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      port number 3001 to reach the Uptime Kuma login page."
+        echo ""
+        echo "      You'll create your initial user as an admin on the first login."
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$BESZEL" == [yY] ]]; then
+        echo "##########################################"
+        echo "###         Installing Beszel          ###"
+        echo "##########################################"
+    
+        # pull an uptime kuma docker-compose file from gitlab
+        echo ""
+        echo ""
+        echo "    1. Pulling a the Uptime Kuma docker-compose.yml file."
+
+        mkdir -p docker/beszel
+        cd docker/beszel
+
+        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_beszel.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo ""
+        echo ""
+        echo "    2. Running the docker-compose.yml to pull and start Uptime Kuma..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    3. You can find the Beszel folder at ~/docker/beszel..."
+        echo ""
+        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      port number 8090 to reach the Uptime Kuma login page."
+        echo ""
+        echo "      You'll create your initial user as an admin on the first login."
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
 
     echo "All docker applications have been added to the docker network my-main-net"
     echo ""
