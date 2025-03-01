@@ -33,13 +33,13 @@ installApps()
         echo ""
     fi
 
-    # read -rp "Do you want to choose any Docker based applications to install as well? (y/n): " INSTALLAPPS
-    # echo ""
-    # echo ""
+    read -rp "Do you want to choose any Docker based applications to install as well? (y/n): " INSTALLAPPS
+    echo ""
+    echo ""
 
-    # if [[ "$INSTALLAPPS" == [yY] ]]; then
-    #     read -rp "NGinX Proxy Manager (y/n): " NPM
-    #     read -rp "Portainer-CE (y/n): " PTAIN
+    if [[ "$INSTALLAPPS" == [yY] ]]; then
+        read -rp "NGinX Proxy Manager (y/n): " NPM
+        read -rp "Portainer-CE (y/n): " PTAIN
     # fi
 
     # if [[ "$PTAIN" == [yY] ]]; then
