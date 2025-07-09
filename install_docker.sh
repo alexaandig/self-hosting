@@ -494,7 +494,6 @@ startInstall()
         echo ""
         echo "Navigate to your server hostname / IP address on port 5678 to setup"
         echo ""
-
         echo ""       
         sleep 3s
         cd
