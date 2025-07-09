@@ -490,10 +490,9 @@ startInstall()
           sudo docker compose up -d
         fi
 
-        echo "3. You can find NGinX Proxy Manager files at ./docker/n8n"
+        echo "3. You can find n8n files at ./docker/n8n"
         echo ""
         echo "Navigate to your server hostname / IP address on port 5678 to setup"
-        echo "NGinX Proxy Manager admin account."
         echo ""
 
         echo ""       
