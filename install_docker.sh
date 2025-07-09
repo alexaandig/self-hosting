@@ -40,6 +40,7 @@ installApps()
     if [[ "$INSTALLAPPS" == [yY] ]]; then
         read -rp "NGinX Proxy Manager (y/n): " NGINX
         read -rp "Portainer-CE (y/n): " PORTAINER
+        read -rp "n8n - Flexible AI workflow automation (y/n): " N8N
     fi
 
     if [[ "$PORTAINER" == [yY] ]]; then
@@ -460,6 +461,40 @@ startInstall()
         echo "The default login credentials for NGinX Proxy Manager are:"
         echo "    username: admin@example.com"
         echo "    password: changeme"
+
+        echo ""       
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$N8N" == [yY] ]]; then
+        echo "############################################################"
+        echo "###     Install n8n - Flexible AI workflow automation    ###"
+        echo "############################################################"
+    
+        # pull an nginx proxy manager docker-compose file from github
+        echo "1. Pulling a default n8n docker-compose.yml file."
+
+        mkdir -p docker/n8n
+        cd docker/n8n
+
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_n8n.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo "2. Running the docker-compose.yml to install and start n8n"
+        echo ""
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "3. You can find NGinX Proxy Manager files at ./docker/n8n"
+        echo ""
+        echo "Navigate to your server hostname / IP address on port 5678 to setup"
+        echo "NGinX Proxy Manager admin account."
+        echo ""
 
         echo ""       
         sleep 3s
