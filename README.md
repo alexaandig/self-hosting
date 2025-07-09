@@ -8,7 +8,7 @@ You can use the script by simply pulling it down with wget or curl, changing the
 
 1. Copy this command for the install script
 
-```wget -qO install-docker.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/install_docker_nproxyman.sh?ref_type=heads && chmod +x install-docker.sh && ./install-docker.sh```
+```wget -qO install-docker.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/install_docker.sh?ref_type=heads && chmod +x install-docker.sh && ./install-docker.sh```
 
 
 ## Contributing by making changes
