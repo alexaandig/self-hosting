@@ -472,7 +472,7 @@ startInstall()
         echo "###     Install n8n - Flexible AI workflow automation    ###"
         echo "############################################################"
     
-        # pull an nginx proxy manager docker-compose file from github
+        # pull an n8n docker-compose file from github
         echo "1. Pulling a default n8n docker-compose.yml file."
 
         mkdir -p docker/n8n
