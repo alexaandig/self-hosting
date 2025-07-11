@@ -50,6 +50,8 @@ installApps()
         sudo apt update
         sudo apt install -y caddy
         echo "Caddy installed."
+        echo ""
+        echo ""
     else
         echo "Skipping Caddy installation."
     fi
