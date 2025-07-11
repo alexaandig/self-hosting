@@ -556,6 +556,7 @@ EOF
             fi
         else
             echo "✅ Ports 80 and 443 are free."
+            echo "------------------------------------------------------"
         fi
 
         echo ""
