@@ -505,9 +505,9 @@ startInstall()
 
         echo "1. Setting up ./docker/caddy directory"
         mkdir -p docker/caddy
-        cd docker/caddy || { echo "❌ Failed to cd into docker/caddy"; exit 1; }
+        cd docker/caddy
 
-        echo "📥 Downloading docker-compose.yml for Caddy..." | tee -a "$log_file"
+        echo "📥 Downloading docker-compose.yml for Caddy..."
         curl -sSL https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_caddy.yml -o docker-compose.yml
 
         echo ""
@@ -583,7 +583,6 @@ EOF
             echo "❌ Caddy failed to start. Please check docker-compose logs." | tee -a "$log_file"
             docker compose logs caddy | tee -a "$log_file"
         fi
-
     fi
 
     if [[ "$PORT" == "1" ]]; then
