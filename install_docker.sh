@@ -517,7 +517,6 @@ localhost {
     respond "Hello, world!"
 }
 EOF
-
         echo ""
         echo "3. Checking if ports 80 and 443 are in use..."
 
