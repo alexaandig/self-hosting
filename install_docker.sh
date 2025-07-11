@@ -538,9 +538,9 @@ services:
         - /var/run/docker.sock:/var/run/docker.sock
         command: --cleanup --interval 300
 
-    volumes:
-        caddy_data:
-        caddy_config:
+volumes:
+    caddy_data:
+    caddy_config:
 EOF
         echo ""
         echo "4. Starting Caddy and Watchtower containers"
