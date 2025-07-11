@@ -515,29 +515,29 @@ EOF
 version: '3.8'
 
 services:
-caddy:
+  caddy:
     image: caddy:latest
     container_name: caddy
     restart: unless-stopped
     ports:
-    - "80:80"
-    - "443:443"
+      - "80:80"
+      - "443:443"
     volumes:
-    - ./Caddyfile:/etc/caddy/Caddyfile
-    - caddy_data:/data
-    - caddy_config:/config
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
 
-watchtower:
+  watchtower:
     image: containrrr/watchtower
     container_name: watchtower
     restart: unless-stopped
     volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
     command: --cleanup --interval 300
 
 volumes:
-caddy_data:
-caddy_config:
+  caddy_data:
+  caddy_config:
 EOF
 
     echo "4. Starting Caddy and Watchtower containers"
@@ -554,6 +554,7 @@ EOF
     sleep 3s
     cd
 fi
+
 
 
     if [[ "$PORT" == "1" ]]; then
