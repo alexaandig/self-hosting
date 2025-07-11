@@ -491,70 +491,69 @@ startInstall()
         cd
     fi
 
-if [[ "$CADDY" == [yY] ]]; then
-    echo ""
-    echo "##########################################"
-    echo "###     Install Caddy with Docker      ###"
-    echo "##########################################"
-    echo ""
+    if [[ "$CADDY" == [yY] ]]; then
+        echo ""
+        echo "##########################################"
+        echo "###     Install Caddy with Docker      ###"
+        echo "##########################################"
+        echo ""
 
-    echo "1. Setting up ./docker/caddy directory"
-    mkdir -p docker/caddy
-    cd docker/caddy
+        echo "1. Setting up ./docker/caddy directory"
+        mkdir -p docker/caddy
+        cd docker/caddy
 
-    echo "2. Creating Caddyfile with HTTPS + Let's Encrypt"
-    cat <<EOF > Caddyfile
-yourdomain.com {
-    root * /usr/share/caddy
-    file_server
-}
-EOF
+        echo "2. Creating Caddyfile with HTTPS + Let's Encrypt"
+        cat <<EOF > Caddyfile
+    yourdomain.com {
+        root * /usr/share/caddy
+        file_server
+    }
+    EOF
 
-    echo "3. Creating docker-compose.yml with Caddy + Watchtower"
-    cat <<EOF > docker-compose.yml
-version: '3.8'
+        echo "3. Creating docker-compose.yml with Caddy + Watchtower"
+        cat <<EOF > docker-compose.yml
+    version: '3.8'
 
-services:
-  caddy:
-    image: caddy:latest
-    container_name: caddy
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
+    services:
+    caddy:
+        image: caddy:latest
+        container_name: caddy
+        restart: unless-stopped
+        ports:
+        - "80:80"
+        - "443:443"
+        volumes:
+        - ./Caddyfile:/etc/caddy/Caddyfile
+        - caddy_data:/data
+        - caddy_config:/config
+
+    watchtower:
+        image: containrrr/watchtower
+        container_name: watchtower
+        restart: unless-stopped
+        volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        command: --cleanup --interval 300
+
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
+    caddy_data:
+    caddy_config:
+    EOF
 
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup --interval 300
+        echo "4. Starting Caddy and Watchtower containers"
+        if [[ "$OS" == "1" ]]; then
+            docker compose up -d
+        else
+            sudo docker compose up -d
+        fi
 
-volumes:
-  caddy_data:
-  caddy_config:
-EOF
-
-    echo "4. Starting Caddy and Watchtower containers"
-    if [[ "$OS" == "1" ]]; then
-        docker compose up -d
-    else
-        sudo docker compose up -d
+        echo ""
+        echo "✅ Caddy with HTTPS is running at https://yourdomain.com (Change this in docker/caddy/Caddyfile)"
+        echo "🔁 Watchtower will check for updates every 5 minutes."
+        echo "📂 Caddy files are in ./docker/caddy"
+        sleep 3s
+        cd
     fi
-
-    echo ""
-    echo "✅ Caddy with HTTPS is running at https://yourdomain.com (Change this in docker/caddy/Caddyfile)"
-    echo "🔁 Watchtower will check for updates every 5 minutes."
-    echo "📂 Caddy files are in ./docker/caddy"
-    sleep 3s
-    cd
-fi
-
 
 
     if [[ "$PORT" == "1" ]]; then
