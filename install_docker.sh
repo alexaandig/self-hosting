@@ -181,7 +181,7 @@ startInstall()
         echo "2. Install Prerequisite Packages..."
         sleep 2s
 
-        sudo apt install curl wget git nano unzip tar gnupg lsb-release net-tools dnsutils iputils-ping -y >> ~/docker-script-install.log 2>&1
+        sudo apt install curl wget git htop nano unzip tar gnupg lsb-release net-tools dnsutils iputils-ping -y >> ~/docker-script-install.log 2>&1
         
         if [[ "$ISACT" != "active" ]]; then
             echo "3. Installing Docker-CE (Community Edition)..."
