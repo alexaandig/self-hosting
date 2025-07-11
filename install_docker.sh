@@ -63,7 +63,7 @@ installApps()
     if [[ "$INSTALLAPPS" == [yY] ]]; then
         read -rp "NGinX Proxy Manager (y/n): " NGINX
         read -rp "Portainer-CE (y/n): " PORTAINER
-        read -rp "Caddy (y/n): " CADDY
+        # read -rp "Caddy (y/n): " CADDY
     fi
 
     if [[ "$PORTAINER" == [yY] ]]; then
