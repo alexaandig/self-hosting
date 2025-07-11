@@ -2,7 +2,7 @@
 
 `sudo apt update && sudo apt upgrade -y`
 
-## This script will help install Docker-CE, Docker-Compose, Caddy Web server and Portainer-CE.
+## This script will help install Docker-CE, Docker-Compose and Portainer-CE.
 
 You can use the script by simply pulling it down with wget or curl, changing the permissions, and running it. 
 
