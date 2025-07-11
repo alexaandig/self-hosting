@@ -2,7 +2,7 @@
 
 `sudo apt update && sudo apt upgrade -y`
 
-## This script will help install Docker-CE, Docker-Compose, NGinX Proxy Manager, and Portainer-CE.
+## This script will help install Docker-CE, Docker-Compose and Portainer-CE.
 
 You can use the script by simply pulling it down with wget or curl, changing the permissions, and running it. 
 
@@ -27,7 +27,6 @@ Note: I try to detect if Docker and Docker Compose are already installed and run
 
 Next, you'll be asked if you want to install any applications with Docker and Docker compose. This is a yes / no (y/n) question. If you answer 'y', you'll be asked to answer y/n for each application.
 
-- NGinx Proxy Manager
 - Portainer-CE
   - if you answer y to Portainer, you'll be asked another question
 
@@ -41,6 +40,6 @@ Answering "n" to any of them will cause them to be skipped.
 
 ### NOTE
 * You must have Docker-CE (or some version of Docker) installed in order to run any of the other three packages.
-* You must have Docker-Compose installed in order to run NGinX Proxy Manager, Portainer-CE, or any of the apps offered with this script.
+* You must have Docker-Compose installed in order to run Portainer-CE, or any of the apps offered with this script.
 
 Before prompting to install Docker or Docker-Compose, I do try to see if you already have them installed, and I skip the prompt if you do (or I try to anyway).
