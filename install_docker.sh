@@ -649,9 +649,9 @@ EOF
         sleep 3s
         cd
     fi
-    echo "------------------------------------------------------"
+    echo "-------------------------------------------------------------------------"
     echo "All docker applications have been added to the docker network my-main-net"
-    echo "------------------------------------------------------"
+    echo "-------------------------------------------------------------------------"
     echo "If you add more docker applications to this server, make sure to add them to the my-main-net network."
     echo ""
     exit 1
