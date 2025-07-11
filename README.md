@@ -11,12 +11,6 @@ You can use the script by simply pulling it down with wget or curl, changing the
 ```wget -qO install-docker.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/install_docker.sh?ref_type=heads && chmod +x install-docker.sh && ./install-docker.sh```
 
 
-## Contributing by making changes
-
-1. Clone the repo
-`git clone https://github.com/alexaandig/self-hosting.git`
-
-
 ## Prompts from the script:
 First, you'll be prompted to select the number for your OS / Distro.  Currently I support RaspbianOS (latest), CentOS 7 and 8, Debian 10 and 11, Ubuntu 18.04 20.04 22.04 23.04 24.04 and on, Arch Linux, and Open Suse (tested on Leap 15.4). 
 
