@@ -66,7 +66,6 @@ installApps()
     fi
 
     if [[ "$PORTAINER" == [yY] ]]; then
-        echo ""
         echo "------------------------------------------------------"
         PS3="Please choose either Portainer-CE or just Portainer Agent: "
         select _ in \
@@ -82,6 +81,7 @@ installApps()
                 *) echo "Invalid selection, please try again..." ;;
             esac
         done
+        echo "------------------------------------------------------"
     fi
     
     startInstall
@@ -448,8 +448,9 @@ startInstall()
     echo "################################################"
     echo "######      Creating a Docker Network    #######"
     echo "################################################"
-
+    echo "------------------------------------------------------"
     sudo docker network create my-main-net
+    echo "------------------------------------------------------"
     sleep 2s
     # move to home directory of user
     cd
