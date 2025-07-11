@@ -147,10 +147,10 @@ startInstall()
                 sleep .25
             done
             printf "\r"
-
-            echo "  - docker-ce version is now:"
+            echo "------------------------------------------------------"
+            echo "Docker-CE version is now:"
             DOCKERV=$(docker -v)
-            echo "      "${DOCKERV}
+            echo " "${DOCKERV}
             sleep 3s
 
             if [[ "$OS" == 2 ]]; then
@@ -189,6 +189,7 @@ startInstall()
             sleep 2s
         
             curl -fsSL https://get.docker.com | sh >> ~/docker-script-install.log 2>&1
+            echo "------------------------------------------------------"
             echo "  Docker-CE version is now:"
             DOCKERV=$(docker -v)
             echo "  "${DOCKERV}
