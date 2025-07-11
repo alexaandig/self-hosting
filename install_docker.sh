@@ -500,15 +500,12 @@ startInstall()
         echo "##########################################"
         echo ""
 
-        log_file=~/docker-script-install.log
-        touch "$log_file"
-
         echo "1. Setting up ./docker/caddy directory"
         mkdir -p docker/caddy
         cd docker/caddy
 
         echo "📥 Downloading docker-compose.yml for Caddy..."
-        curl -sSL https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_caddy.yml -o docker-compose.yml
+        curl -sSL https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_caddy.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo "2. Creating Caddyfile with HTTPS + Let's Encrypt"
@@ -521,8 +518,8 @@ EOF
         echo "3. Checking if ports 80 and 443 are in use..."
 
         if ! command -v lsof >/dev/null 2>&1; then
-            echo "⚠️ 'lsof' not found. Installing..." | tee -a "$log_file"
-            sudo apt-get update && sudo apt-get install -y lsof >> "$log_file" 2>&1
+            echo "⚠️ 'lsof' not found. Installing..."
+            sudo apt-get update && sudo apt-get install -y lsof
         fi
 
         check_ports() {
@@ -533,54 +530,54 @@ EOF
         check_ports > /tmp/port_check.log
 
         if grep -q "LISTEN" /tmp/port_check.log; then
-            echo "⚠️ Ports 80 or 443 are in use. Attempting to stop common services..." | tee -a "$log_file"
+            echo "⚠️ Ports 80 or 443 are in use. Attempting to stop common services..."
             SERVICES=("nginx" "apache2" "caddy")
             for svc in "${SERVICES[@]}"; do
                 if systemctl is-active --quiet "$svc"; then
-                    echo "🔧 Stopping $svc..." | tee -a "$log_file"
-                    sudo systemctl stop "$svc" >> "$log_file" 2>&1
-                    sudo systemctl disable "$svc" >> "$log_file" 2>&1
-                    echo "✅ $svc stopped and disabled" | tee -a "$log_file"
+                    echo "🔧 Stopping $svc..."
+                    sudo systemctl stop "$svc"  >> ~/docker-script-install.log 2>&1
+                    sudo systemctl disable "$svc"  >> ~/docker-script-install.log 2>&1
+                    echo "✅ $svc stopped and disabled"
                 fi
             done
 
             sleep 2
-            echo "🔄 Re-checking ports..." | tee -a "$log_file"
+            echo "🔄 Re-checking ports..."
             check_ports > /tmp/port_check_after.log
 
             if grep -q "LISTEN" /tmp/port_check_after.log; then
-                echo "❌ Ports are still in use:" | tee -a "$log_file"
+                echo "❌ Ports are still in use:"
                 tee -a "$log_file" < /tmp/port_check_after.log
                 echo "Do you want to continue anyway? (y/n)"
                 read -r PROCEED
                 [[ "$PROCEED" != [yY] ]] && echo "❌ Exiting..." && exit 1
             else
-                echo "✅ Ports 80 and 443 are now free." | tee -a "$log_file"
+                echo "✅ Ports 80 and 443 are now free."
             fi
         else
-            echo "✅ Ports 80 and 443 are free." | tee -a "$log_file"
+            echo "✅ Ports 80 and 443 are free."
         fi
 
         echo ""
-        echo "4. Starting or Restarting Caddy with Docker..." | tee -a "$log_file"
+        echo "4. Starting or Restarting Caddy with Docker..."
 
         # If Caddy is already running, stop it first to apply changes
         if docker ps --format '{{.Names}}' | grep -q caddy; then
-            echo "🔄 Stopping existing Caddy container..." | tee -a "$log_file"
-            docker compose down >> "$log_file" 2>&1
-            echo "✅ Existing Caddy container stopped." | tee -a "$log_file"
+            echo "🔄 Stopping existing Caddy container..."
+            docker compose down  >> ~/docker-script-install.log 2>&1
+            echo "✅ Existing Caddy container stopped."
         fi
 
         # Run docker compose
-        echo "🚀 Launching Caddy with docker-compose..." | tee -a "$log_file"
-        docker compose up -d >> "$log_file" 2>&1
+        echo "🚀 Launching Caddy with docker-compose..."
+        docker compose up -d  >> ~/docker-script-install.log 2>&1
 
         # Check status
         if docker ps --format '{{.Names}}' | grep -q caddy; then
-            echo "✅ Caddy is up and running." | tee -a "$log_file"
+            echo "✅ Caddy is up and running."
         else
-            echo "❌ Caddy failed to start. Please check docker-compose logs." | tee -a "$log_file"
-            docker compose logs caddy | tee -a "$log_file"
+            echo "❌ Caddy failed to start. Please check docker-compose logs."
+            docker compose logs caddy
         fi
     fi
 
