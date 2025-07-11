@@ -165,7 +165,7 @@ startInstall()
 
     if [[ "$OS" == [234] ]]; then
         echo "1. Installing System Updates... this may take a while...be patient. If it is being done on a Digital Ocean VPS, you should run updates before running this script."
-        (sudo apt update && sudo apt upgrade -y && sudo apt install -y nano unzip tar gnupg lsb-release net-tools dnsutils iputils-ping) > ~/docker-script-install.log 2>&1 &
+        (sudo apt update && sudo apt upgrade -y) > ~/docker-script-install.log 2>&1 &
         ## Show a spinner for activity progress
         pid=$! # Process Id of the previous running command
         spin='-\|/'
@@ -181,7 +181,7 @@ startInstall()
         echo "2. Install Prerequisite Packages..."
         sleep 2s
 
-        sudo apt install curl wget git -y >> ~/docker-script-install.log 2>&1
+        sudo apt install curl wget git nano unzip tar gnupg lsb-release net-tools dnsutils iputils-ping -y >> ~/docker-script-install.log 2>&1
         
         if [[ "$ISACT" != "active" ]]; then
             echo "3. Installing Docker-CE (Community Edition)..."
