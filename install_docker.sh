@@ -33,6 +33,27 @@ installApps()
         echo ""
     fi
 
+    #### Install Caddy
+    read -rp "Install Caddy web server? (y/n): " INSTALL_CADDY
+
+    if [[ "$INSTALL_CADDY" == "y" || "$INSTALL_CADDY" == "Y" ]]; then
+        echo "Installing Caddy..."
+        sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
+        curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' \
+        | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+
+        curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' \
+        | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+
+        sudo chmod o+r /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+        sudo chmod o+r /etc/apt/sources.list.d/caddy-stable.list
+        sudo apt update
+        sudo apt install -y caddy
+        echo "Caddy installed."
+    else
+        echo "Skipping Caddy installation."
+    fi
+
     read -rp "Do you want to choose any Docker based applications to install as well? (y/n): " INSTALLAPPS
     echo ""
     echo ""
@@ -472,35 +493,39 @@ startInstall()
 
     if [[ "$CADDY" == [yY] ]]; then
         echo ""
-        echo ""
         echo "##########################################"
         echo "###           Install Caddy            ###"
         echo "##########################################"
-    
-        # pull a caddy docker-compose file from github
-        echo "1. Pulling a default Caddy docker-compose.yml file."
+        echo ""
 
+        echo "1. Setting up Caddy directory at ./docker/caddy"
         mkdir -p docker/caddy
         cd docker/caddy
 
-        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_caddy.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        echo "2. Creating a basic Caddyfile"
+        cat <<EOF > Caddyfile
+        :80 {
+            respond "Hello from Caddy!"
+        }
+        EOF
 
-        echo "2. Running the docker-compose.yml to install and start Caddy"
-        echo ""
-        echo ""
+        echo "3. Downloading docker-compose.yml for Caddy"
+        curl -s https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_caddy.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
+        echo "4. Starting Caddy container with Docker Compose"
         if [[ "$OS" == "1" ]]; then
-          docker compose up -d
+            docker compose up -d
         else
-          sudo docker compose up -d
+            sudo docker compose up -d
         fi
 
-        echo "3. You can find Caddy files at ./docker/caddy"
         echo ""
-        echo ""       
+        echo "✅ Caddy is now running in Docker."
+        echo "📂 Files are located in ./docker/caddy"
         sleep 3s
         cd
     fi
+
 
     if [[ "$PORT" == "1" ]]; then
         echo ""
