@@ -513,43 +513,14 @@ localhost {
 }
 EOF
         echo ""
-        echo "3. Creating docker-compose.yml with Caddy + Watchtower"
-cat <<EOF > docker-compose.yml
-version: '3.8'
-
-services:
-  caddy:
-    image: caddy:latest
-    container_name: caddy
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-      - caddy_data:/data
-      - caddy_config:/config
-
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup --interval 300
-
-volumes:
-  caddy_data:
-  caddy_config:
-EOF
         echo ""
-        echo "4. Starting Caddy and Watchtower containers"
+        echo "3. Starting Caddy and Watchtower containers"
         if [[ "$OS" == "1" ]]; then
             docker compose up -d
         else
             sudo docker compose up -d
         fi
-        
+
         echo ""
         echo "✅ Caddy with HTTPS is running at https://yourdomain.com (Change this in docker/caddy/Caddyfile)"
         echo "🔁 Watchtower will check for updates every 5 minutes."
