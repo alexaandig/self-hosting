@@ -181,14 +181,12 @@ startInstall()
         printf "\r"
 
         echo "2. Install Prerequisite Packages..."
-        spin='-\|/'
         sleep 2s
 
         sudo apt install curl wget git htop nano unzip tar gnupg lsb-release net-tools dnsutils iputils-ping ca-certificates -y >> ~/docker-script-install.log 2>&1
         
         if [[ "$ISACT" != "active" ]]; then
             echo "3. Installing Docker-CE (Community Edition)..."
-            spin='-\|/'
             sleep 2s
         
             curl -fsSL https://get.docker.com | sh >> ~/docker-script-install.log 2>&1
