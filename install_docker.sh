@@ -514,23 +514,52 @@ localhost {
 EOF
         echo ""
         echo ""
-        echo "3. Checking if port 80 is already in use..."
-        **sudo lsof -i :80**
+        echo "3. Checking if ports 80 and 443 are in use..."
 
-        echo "4. Starting Caddy and Watchtower containers"
-        if [[ "$OS" == "1" ]]; then
-            docker compose up -d
+        log_file=~/docker-script-install.log
+        touch "$log_file"
+
+        check_ports() {
+            sudo lsof -i :80 -sTCP:LISTEN
+            sudo lsof -i :443 -sTCP:LISTEN
+        }
+
+        check_ports > /tmp/port_check.log
+
+        if grep -q "LISTEN" /tmp/port_check.log; then
+            echo "⚠️ Ports 80 or 443 are in use. Attempting to stop common services..." | tee -a "$log_file"
+            echo ""
+            SERVICES=("nginx" "apache2" "caddy")
+            for svc in "${SERVICES[@]}"; do
+                if systemctl is-active --quiet "$svc"; then
+                    echo "🔧 Stopping $svc..." | tee -a "$log_file"
+                    sudo systemctl stop "$svc" >> "$log_file" 2>&1
+                    sudo systemctl disable "$svc" >> "$log_file" 2>&1
+                    echo "✅ $svc stopped and disabled" | tee -a "$log_file"
+                    echo ""
+                fi
+            done
+
+            sleep 2
+            echo "🔄 Re-checking ports..." | tee -a "$log_file"
+            echo ""
+            check_ports > /tmp/port_check_after.log
+
+            if grep -q "LISTEN" /tmp/port_check_after.log; then
+                echo "❌ Ports are still in use after stopping known services:" | tee -a "$log_file"
+                cat /tmp/port_check_after.log | tee -a "$log_file"
+                echo "Do you want to continue anyway? (y/n)"
+                read -r PROCEED
+                [[ "$PROCEED" != [yY] ]] && echo "❌ Exiting..." && exit 1
+            else
+                echo "✅ Ports 80 and 443 are now free." | tee -a "$log_file"
+                echo ""
+            fi
         else
-            sudo docker compose up -d
+            echo "✅ Ports 80 and 443 are free." | tee -a "$log_file"
+            echo ""
         fi
 
-        echo ""
-        echo "✅ Caddy with HTTPS is running at https://yourdomain.com (Change this in docker/caddy/Caddyfile)"
-        echo "🔁 Watchtower will check for updates every 5 minutes."
-        echo "📂 Caddy files are in ./docker/caddy"
-        sleep 3s
-        cd
-    fi
 
 
     if [[ "$PORT" == "1" ]]; then
