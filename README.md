@@ -12,6 +12,7 @@ You can use the script by simply pulling it down with wget or curl, changing the
 
 ## Prompts for Insight LM
 
+# Install Nodejs first
 ```curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -sudo apt-get install -y nodejs```
 
 ## Build Script
