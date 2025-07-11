@@ -506,9 +506,8 @@ startInstall()
         echo ""
         echo "2. Creating Caddyfile with HTTPS + Let's Encrypt"
 cat <<EOF > Caddyfile
-yourdomain.com {
-    root * /usr/share/caddy
-    file_server
+localhost {
+	respond "Hello, world!"
 }
 EOF
         echo ""
