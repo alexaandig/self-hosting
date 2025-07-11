@@ -503,7 +503,7 @@ startInstall()
         cd docker/caddy
 
         echo "2. Creating Caddyfile with HTTPS + Let's Encrypt"
-        cat <<EOF > Caddyfile
+cat <<EOF > Caddyfile
 yourdomain.com {
     root * /usr/share/caddy
     file_server
@@ -511,7 +511,7 @@ yourdomain.com {
 EOF
 
         echo "3. Creating docker-compose.yml with Caddy + Watchtower"
-        cat <<EOF > docker-compose.yml
+cat <<EOF > docker-compose.yml
 version: '3.8'
 
 services:
