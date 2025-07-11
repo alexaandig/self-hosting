@@ -165,7 +165,7 @@ startInstall()
 
     if [[ "$OS" == [234] ]]; then
         echo "1. Installing System Updates... this may take a while...be patient. If it is being done on a Digital Ocean VPS, you should run updates before running this script."
-        (sudo apt update && sudo apt upgrade -y) > ~/docker-script-install.log 2>&1 &
+        (sudo apt update && sudo apt upgrade -y && sudo apt install -y nano unzip tar gnupg lsb-release net-tools dnsutils iputils-ping) > ~/docker-script-install.log 2>&1 &
         ## Show a spinner for activity progress
         pid=$! # Process Id of the previous running command
         spin='-\|/'
@@ -332,9 +332,9 @@ startInstall()
             printf "\r"
             sudo systemctl enable docker >> ~/docker-script-install.log 2>&1
 
-            echo "- docker-ce version is now:"
+            echo "- Docker-CE version is now:"
             DOCKERV=$(docker -v)
-            echo "    "${DOCKERV}
+            echo "  "${DOCKERV}
             sleep 3s
         fi
     fi
@@ -517,29 +517,29 @@ cat <<EOF > docker-compose.yml
 version: '3.8'
 
 services:
-caddy:
-    image: caddy:latest
-    container_name: caddy
-    restart: unless-stopped
-    ports:
-    - "80:80"
-    - "443:443"
-    volumes:
-    - ./Caddyfile:/etc/caddy/Caddyfile
-    - caddy_data:/data
-    - caddy_config:/config
+    caddy:
+        image: caddy:latest
+        container_name: caddy
+        restart: unless-stopped
+        ports:
+        - "80:80"
+        - "443:443"
+        volumes:
+        - ./Caddyfile:/etc/caddy/Caddyfile
+        - caddy_data:/data
+        - caddy_config:/config
 
-watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    restart: unless-stopped
-    volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    command: --cleanup --interval 300
+    watchtower:
+        image: containrrr/watchtower
+        container_name: watchtower
+        restart: unless-stopped
+        volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        command: --cleanup --interval 300
 
-volumes:
-caddy_data:
-caddy_config:
+    volumes:
+        caddy_data:
+        caddy_config:
 EOF
         echo ""
         echo "4. Starting Caddy and Watchtower containers"
