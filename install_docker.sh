@@ -561,6 +561,29 @@ EOF
     else
         echo "✅ Ports 80 and 443 are free." | tee -a "$log_file"
     fi
+
+    echo ""
+    echo "4. Starting or Restarting Caddy with Docker..." | tee -a "$log_file"
+
+    # If Caddy is already running, stop it first to apply changes
+    if docker ps --format '{{.Names}}' | grep -q caddy; then
+        echo "🔄 Stopping existing Caddy container..." | tee -a "$log_file"
+        docker compose down >> "$log_file" 2>&1
+        echo "✅ Existing Caddy container stopped." | tee -a "$log_file"
+    fi
+
+    # Run docker compose
+    echo "🚀 Launching Caddy with docker-compose..." | tee -a "$log_file"
+    docker compose up -d >> "$log_file" 2>&1
+
+    # Check status
+    if docker ps --format '{{.Names}}' | grep -q caddy; then
+        echo "✅ Caddy is up and running." | tee -a "$log_file"
+    else
+        echo "❌ Caddy failed to start. Please check docker-compose logs." | tee -a "$log_file"
+        docker compose logs caddy | tee -a "$log_file"
+    fi
+
 fi
 
     if [[ "$PORT" == "1" ]]; then
