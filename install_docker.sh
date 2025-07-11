@@ -504,41 +504,41 @@ startInstall()
 
         echo "2. Creating Caddyfile with HTTPS + Let's Encrypt"
         cat <<EOF > Caddyfile
-    yourdomain.com {
-        root * /usr/share/caddy
-        file_server
-    }
-    EOF
+yourdomain.com {
+    root * /usr/share/caddy
+    file_server
+}
+EOF
 
         echo "3. Creating docker-compose.yml with Caddy + Watchtower"
         cat <<EOF > docker-compose.yml
-    version: '3.8'
+version: '3.8'
 
-    services:
-    caddy:
-        image: caddy:latest
-        container_name: caddy
-        restart: unless-stopped
-        ports:
-        - "80:80"
-        - "443:443"
-        volumes:
-        - ./Caddyfile:/etc/caddy/Caddyfile
-        - caddy_data:/data
-        - caddy_config:/config
-
-    watchtower:
-        image: containrrr/watchtower
-        container_name: watchtower
-        restart: unless-stopped
-        volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        command: --cleanup --interval 300
-
+services:
+caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+    - "80:80"
+    - "443:443"
     volumes:
-    caddy_data:
-    caddy_config:
-    EOF
+    - ./Caddyfile:/etc/caddy/Caddyfile
+    - caddy_data:/data
+    - caddy_config:/config
+
+watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --interval 300
+
+volumes:
+caddy_data:
+caddy_config:
+EOF
 
         echo "4. Starting Caddy and Watchtower containers"
         if [[ "$OS" == "1" ]]; then
