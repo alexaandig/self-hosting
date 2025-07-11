@@ -33,7 +33,7 @@ installApps()
     fi
 
     #### Install Caddy
-    read -rp "Install Caddy web server in your VPS? (y/n): " INSTALL_CADDY
+    #read -rp "Install Caddy web server in your VPS? (y/n): " INSTALL_CADDY
 
     if [[ "$INSTALL_CADDY" == "y" || "$INSTALL_CADDY" == "Y" ]]; then
         echo "Installing Caddy..."
