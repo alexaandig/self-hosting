@@ -535,8 +535,8 @@ EOF
             for svc in "${SERVICES[@]}"; do
                 if systemctl is-active --quiet "$svc"; then
                     echo "🔧 Stopping $svc..."
-                    sudo systemctl stop "$svc"  >> ~/docker-script-install.log 2>&1
-                    sudo systemctl disable "$svc"  >> ~/docker-script-install.log 2>&1
+                    sudo systemctl stop "$svc"
+                    sudo systemctl disable "$svc"
                     echo "✅ $svc stopped and disabled"
                 fi
             done
@@ -547,7 +547,7 @@ EOF
 
             if grep -q "LISTEN" /tmp/port_check_after.log; then
                 echo "❌ Ports are still in use:"
-                tee -a "$log_file" < /tmp/port_check_after.log
+                echo ""
                 echo "Do you want to continue anyway? (y/n)"
                 read -r PROCEED
                 [[ "$PROCEED" != [yY] ]] && echo "❌ Exiting..." && exit 1
@@ -564,13 +564,15 @@ EOF
         # If Caddy is already running, stop it first to apply changes
         if docker ps --format '{{.Names}}' | grep -q caddy; then
             echo "🔄 Stopping existing Caddy container..."
-            docker compose down  >> ~/docker-script-install.log 2>&1
+            echo ""
+            docker compose down
             echo "✅ Existing Caddy container stopped."
+            echo ""
         fi
 
         # Run docker compose
         echo "🚀 Launching Caddy with docker-compose..."
-        docker compose up -d  >> ~/docker-script-install.log 2>&1
+        docker compose up -d
 
         # Check status
         if docker ps --format '{{.Names}}' | grep -q caddy; then
