@@ -188,8 +188,8 @@ startInstall()
         
         if [[ "$ISACT" != "active" ]]; then
             echo "3. Installing Docker-CE (Community Edition)..."
-            sleep 2s
             spin='-\|/'
+            sleep 2s
         
             curl -fsSL https://get.docker.com | sh >> ~/docker-script-install.log 2>&1
             echo "  - docker-ce version is now:"
