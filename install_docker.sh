@@ -40,6 +40,7 @@ installApps()
     if [[ "$INSTALLAPPS" == [yY] ]]; then
         read -rp "NGinX Proxy Manager (y/n): " NGINX
         read -rp "Portainer-CE (y/n): " PORTAINER
+        read -rp "Caddy (y/n): " CADDY
     fi
 
     if [[ "$PORTAINER" == [yY] ]]; then
@@ -342,8 +343,6 @@ startInstall()
         # install docker compose
         echo ""
         echo "1. Installing Docker Compose..."
-        echo ""
-        echo ""
         sleep 2s
 
         ######################################
@@ -466,6 +465,38 @@ startInstall()
         echo "    username: admin@example.com"
         echo "    password: changeme"
 
+        echo ""       
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$CADDY" == [yY] ]]; then
+        echo ""
+        echo ""
+        echo "##########################################"
+        echo "###           Install Caddy            ###"
+        echo "##########################################"
+    
+        # pull a caddy docker-compose file from github
+        echo "1. Pulling a default Caddy docker-compose.yml file."
+
+        mkdir -p docker/caddy
+        cd docker/caddy
+
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_caddy.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo "2. Running the docker-compose.yml to install and start Caddy"
+        echo ""
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "3. You can find Caddy files at ./docker/caddy"
+        echo ""
         echo ""       
         sleep 3s
         cd

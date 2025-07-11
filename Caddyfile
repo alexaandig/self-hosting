@@ -1,0 +1,7 @@
+insights-lm.swiftspace.io {
+  reverse_proxy 127.0.0.1:3010
+}
+
+www.insights-lm.swiftspace.io {
+  redir https://insights-lm.swiftspace.io{uri} permanent
+}
