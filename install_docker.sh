@@ -4,11 +4,10 @@ installApps()
 {
     clear
     OS="$REPLY" ## <-- This $REPLY is about OS Selection
-    echo "We can install Docker-CE, Docker-Compose, NGinX Proxy Manager, and Portainer-CE."
+    echo "We can install Docker-CE, Docker-Compose, Caddy and Portainer-CE."
     echo "Please select 'y' for each item you would like to install."
-    echo "NOTE: Without Docker you cannot use Docker-Compose, NGinx Proxy Manager, or Portainer-CE."
-    echo "You also must have Docker-Compose for NGinX Proxy Manager to be installed."
-    echo ""
+    echo "NOTE: Without Docker you cannot use Docker-Compose or Portainer-CE."
+    echo "------------------------------------------------------"
     echo ""
     
     ISACT=$( (sudo systemctl is-active docker ) 2>&1 )
@@ -19,17 +18,17 @@ installApps()
         read -rp "Docker-CE (y/n): " DOCK
     else
         echo "Docker appears to be installed and running."
-        echo ""
+        echo "------------------------------------------------------"
         echo ""
     fi
 
     if [[ "$ISCOMP" == *"command not found"* ]]; then
         read -rp "Docker Compose (y/n): " DCOMP
-        echo ""
+        echo "------------------------------------------------------"
         echo ""
     else
         echo "Docker Compose appears to be installed."
-        echo ""
+        echo "------------------------------------------------------"
         echo ""
     fi
 
@@ -50,14 +49,14 @@ installApps()
         sudo apt update
         sudo apt install -y caddy
         echo "Caddy installed."
-        echo ""
+        echo "------------------------------------------------------"
         echo ""
     else
         echo "Skipping Caddy installation."
     fi
 
     read -rp "Do you want to choose any Docker based applications to install as well? (y/n): " INSTALLAPPS
-    echo ""
+    echo "------------------------------------------------------"
     echo ""
 
     if [[ "$INSTALLAPPS" == [yY] ]]; then
@@ -190,9 +189,10 @@ startInstall()
             sleep 2s
         
             curl -fsSL https://get.docker.com | sh >> ~/docker-script-install.log 2>&1
-            echo "  - docker-ce version is now:"
+            echo "  Docker-CE version is now:"
             DOCKERV=$(docker -v)
-            echo "      "${DOCKERV}
+            echo "  "${DOCKERV}
+            echo "------------------------------------------------------"
             sleep 3s
 
             if [[ "$OS" == 2 ]]; then
@@ -668,10 +668,10 @@ echo "Let's figure out which OS / Distro you are running."
 echo ""
 echo ""
 echo "From some basic information on your system, you appear to be running: "
-echo "    --  OS Name        " $(lsb_release -i)
-echo "    --  Description    " $(lsb_release -d)
-echo "    --  OS Version     " $(lsb_release -r)
-echo "    --  Code Name      " $(lsb_release -c)
+echo "--  OS Name        " $(lsb_release -i)
+echo "--  Description    " $(lsb_release -d)
+echo "--  OS Version     " $(lsb_release -r)
+echo "--  Code Name      " $(lsb_release -c)
 echo ""
 echo "------------------------------------------------------"
 echo ""
