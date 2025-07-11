@@ -494,25 +494,53 @@ startInstall()
     if [[ "$CADDY" == [yY] ]]; then
         echo ""
         echo "##########################################"
-        echo "###           Install Caddy            ###"
+        echo "###     Install Caddy with Docker      ###"
         echo "##########################################"
         echo ""
 
-        echo "1. Setting up Caddy directory at ./docker/caddy"
+        echo "1. Setting up ./docker/caddy directory"
         mkdir -p docker/caddy
         cd docker/caddy
 
-        echo "2. Creating a basic Caddyfile"
+        echo "2. Creating Caddyfile with HTTPS + Let's Encrypt"
         cat <<EOF > Caddyfile
-        :80 {
-            respond "Hello from Caddy!"
-        }
-        EOF
+    yourdomain.com {
+        root * /usr/share/caddy
+        file_server
+    }
+    EOF
 
-        echo "3. Downloading docker-compose.yml for Caddy"
-        curl -s https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_caddy.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        echo "3. Creating docker-compose.yml with Caddy + Watchtower"
+        cat <<EOF > docker-compose.yml
+    version: '3.8'
 
-        echo "4. Starting Caddy container with Docker Compose"
+    services:
+    caddy:
+        image: caddy:latest
+        container_name: caddy
+        restart: unless-stopped
+        ports:
+        - "80:80"
+        - "443:443"
+        volumes:
+        - ./Caddyfile:/etc/caddy/Caddyfile
+        - caddy_data:/data
+        - caddy_config:/config
+
+    watchtower:
+        image: containrrr/watchtower
+        container_name: watchtower
+        restart: unless-stopped
+        volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        command: --cleanup --interval 300
+
+    volumes:
+    caddy_data:
+    caddy_config:
+    EOF
+
+        echo "4. Starting Caddy and Watchtower containers"
         if [[ "$OS" == "1" ]]; then
             docker compose up -d
         else
@@ -520,8 +548,9 @@ startInstall()
         fi
 
         echo ""
-        echo "✅ Caddy is now running in Docker."
-        echo "📂 Files are located in ./docker/caddy"
+        echo "✅ Caddy with HTTPS is running at https://yourdomain.com (Change this in docker/caddy/Caddyfile)"
+        echo "🔁 Watchtower will check for updates every 5 minutes."
+        echo "📂 Caddy files are in ./docker/caddy"
         sleep 3s
         cd
     fi
