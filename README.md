@@ -12,6 +12,11 @@ You can use the script by simply pulling it down with wget or curl, changing the
 
 ## Prompts for Insight LM
 
+```curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs```
+
+## Build Script
+
 ```wget -qO build-and-serve.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/insight-lm/build-and-serve.sh?ref_type=heads && chmod +x build-and-serve.sh && ./build-and-serve.sh```
 
 ## Prompts from the script:
