@@ -502,6 +502,8 @@ startInstall()
         mkdir -p docker/caddy
         cd docker/caddy
 
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_caddy.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        echo ""
         echo "2. Creating Caddyfile with HTTPS + Let's Encrypt"
 cat <<EOF > Caddyfile
 yourdomain.com {
@@ -509,7 +511,7 @@ yourdomain.com {
     file_server
 }
 EOF
-
+        echo ""
         echo "3. Creating docker-compose.yml with Caddy + Watchtower"
 cat <<EOF > docker-compose.yml
 version: '3.8'
@@ -539,7 +541,7 @@ volumes:
 caddy_data:
 caddy_config:
 EOF
-
+        echo ""
         echo "4. Starting Caddy and Watchtower containers"
         if [[ "$OS" == "1" ]]; then
             docker compose up -d
