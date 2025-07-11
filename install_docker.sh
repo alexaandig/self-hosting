@@ -67,7 +67,7 @@ installApps()
 
     if [[ "$PORTAINER" == [yY] ]]; then
         echo ""
-        echo ""
+        echo "------------------------------------------------------"
         PS3="Please choose either Portainer-CE or just Portainer Agent: "
         select _ in \
             " Full Portainer-CE (Web GUI for Docker, Swarm, and Kubernetes)" \
