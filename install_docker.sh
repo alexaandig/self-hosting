@@ -183,7 +183,7 @@ startInstall()
         echo "2. Install Prerequisite Packages..."
         sleep 2s
 
-        sudo apt install curl wget git htop nano unzip tar gnupg lsb-release net-tools dnsutils iputils-ping ca-certificates -y >> ~/docker-script-install.log 2>&1
+        sudo apt install curl wget git htop nano unzip tar gnupg lsb-release net-tools dnsutils iputils-ping ca-certificates lsof -y >> ~/docker-script-install.log 2>&1
         
         if [[ "$ISACT" != "active" ]]; then
             echo "3. Installing Docker-CE (Community Edition)..."
@@ -514,7 +514,10 @@ localhost {
 EOF
         echo ""
         echo ""
-        echo "3. Starting Caddy and Watchtower containers"
+        echo "3. Checking if port 80 is already in use..."
+        **sudo lsof -i :80**
+
+        echo "4. Starting Caddy and Watchtower containers"
         if [[ "$OS" == "1" ]]; then
             docker compose up -d
         else
