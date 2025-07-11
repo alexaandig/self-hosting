@@ -10,15 +10,6 @@ You can use the script by simply pulling it down with wget or curl, changing the
 
 ```wget -qO install-docker.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/install_docker.sh?ref_type=heads && chmod +x install-docker.sh && ./install-docker.sh```
 
-## Prompts for Insight LM
-
-# Install Nodejs first
-```curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -sudo apt-get install -y nodejs```
-
-## Build Script
-
-```wget -qO build-and-serve.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/insight-lm/build-and-serve.sh?ref_type=heads && chmod +x build-and-serve.sh && ./build-and-serve.sh```
-
 ## Prompts from the script:
 First, you'll be prompted to select the number for your OS / Distro.  Currently I support RaspbianOS (latest), CentOS 7 and 8, Debian 10 and 11, Ubuntu 18.04 20.04 22.04 23.04 24.04 and on, Arch Linux, and Open Suse (tested on Leap 15.4). 
 
