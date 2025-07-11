@@ -594,7 +594,6 @@ EOF
         echo "########################################"
         echo ""
         echo "1. Preparing to Install Portainer-CE"
-        echo ""
         echo "2. Creating the folder structure for Portainer."
         echo "3. You can find Portainer-CE files in ./docker/portainer"
 
@@ -645,37 +644,29 @@ EOF
 
         echo ""
         echo "From Portainer or Portainer-CE add this Agent instance via the 'Endpoints' option in the left menu."
-        echo "   ####     Use the IP address of this server and port 9001"
-        echo ""
-        echo ""
+        echo "Use the IP address of this server and port 9001"
         echo ""
         sleep 3s
         cd
     fi
-
+    echo "------------------------------------------------------"
     echo "All docker applications have been added to the docker network my-main-net"
-    echo ""
+    echo "------------------------------------------------------"
     echo "If you add more docker applications to this server, make sure to add them to the my-main-net network."
-    echo "You can then use them by container name in NGinX Proxy Manager if so desired."
-
+    echo ""
     exit 1
 }
-
-echo ""
 echo ""
 
 clear
 echo ""
-echo ""
 echo "Let's figure out which OS / Distro you are running."
-echo ""
 echo ""
 echo "From some basic information on your system, you appear to be running: "
 echo "--  OS Name        " $(lsb_release -i)
 echo "--  Description    " $(lsb_release -d)
 echo "--  OS Version     " $(lsb_release -r)
 echo "--  Code Name      " $(lsb_release -c)
-echo ""
 echo "------------------------------------------------------"
 echo ""
 
@@ -684,7 +675,7 @@ select _ in \
     "CentOS 7 / 8 / Fedora" \
     "Debian 10 / 11" \
     "Ubuntu 18.04" \
-    "Ubuntu 20.04 / 21.04 / 22.04+" \
+    "Ubuntu 20.04 / 21.04 / 22.04+ / 24.04+ / 25.04+" \
     "Arch Linux" \
     "Open Suse"\
     "Arm64 / Raspbian"\
