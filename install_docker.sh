@@ -34,7 +34,7 @@ installApps()
     fi
 
     #### Install Caddy
-    read -rp "Install Caddy web server? (y/n): " INSTALL_CADDY
+    read -rp "Install Caddy web server in your VPS? (y/n): " INSTALL_CADDY
 
     if [[ "$INSTALL_CADDY" == "y" || "$INSTALL_CADDY" == "Y" ]]; then
         echo "Installing Caddy..."
@@ -61,7 +61,7 @@ installApps()
     echo ""
 
     if [[ "$INSTALLAPPS" == [yY] ]]; then
-        read -rp "NGinX Proxy Manager (y/n): " NGINX
+        # read -rp "NGinX Proxy Manager (y/n): " NGINX
         read -rp "Portainer-CE (y/n): " PORTAINER
         # read -rp "Caddy (y/n): " CADDY
     fi
