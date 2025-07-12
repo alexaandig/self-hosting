@@ -32,37 +32,12 @@ installApps()
         echo ""
     fi
 
-    #### Install Caddy
-    read -rp "Install Caddy web server in your VPS? (y/n): " INSTALL_CADDY
-
-    if [[ "$INSTALL_CADDY" == "y" || "$INSTALL_CADDY" == "Y" ]]; then
-        echo "Installing Caddy..."
-        sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https curl
-        curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' \
-        | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-
-        curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' \
-        | sudo tee /etc/apt/sources.list.d/caddy-stable.list
-
-        sudo chmod o+r /usr/share/keyrings/caddy-stable-archive-keyring.gpg
-        sudo chmod o+r /etc/apt/sources.list.d/caddy-stable.list
-        sudo apt update
-        sudo apt install -y caddy
-        echo "Caddy installed."
-        echo "------------------------------------------------------"
-        echo ""
-    else
-        echo "Skipping Caddy installation."
-    fi
-
     read -rp "Do you want to choose any Docker based applications to install as well? (y/n): " INSTALLAPPS
     echo "------------------------------------------------------"
     echo ""
 
     if [[ "$INSTALLAPPS" == [yY] ]]; then
-        # read -rp "NGinX Proxy Manager (y/n): " NGINX
         read -rp "Portainer-CE (y/n): " PORTAINER
-        # read -rp "Caddy (y/n): " CADDY
     fi
 
     if [[ "$PORTAINER" == [yY] ]]; then
@@ -493,97 +468,6 @@ startInstall()
         echo ""       
         sleep 3s
         cd
-    fi
-
-    if [[ "$CADDY" == "y" || "$CADDY" == "Y" ]]; then
-        echo ""
-        echo "##########################################"
-        echo "###     Install Caddy with Docker      ###"
-        echo "##########################################"
-        echo ""
-
-        echo "1. Setting up ./docker/caddy directory"
-        mkdir -p docker/caddy
-        cd docker/caddy
-
-        echo "📥 Downloading docker-compose.yml for Caddy..."
-        curl -sSL https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_caddy.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
-
-        echo ""
-        echo "2. Creating Caddyfile with HTTPS + Let's Encrypt"
-        cat <<EOF > Caddyfile
-localhost {
-    respond "Hello, world!"
-}
-EOF
-        echo ""
-        echo "3. Checking if ports 80 and 443 are in use..."
-
-        if ! command -v lsof >/dev/null 2>&1; then
-            echo "⚠️ 'lsof' not found. Installing..."
-            sudo apt-get update && sudo apt-get install -y lsof
-        fi
-
-        check_ports() {
-            sudo lsof -i :80 -sTCP:LISTEN
-            sudo lsof -i :443 -sTCP:LISTEN
-        }
-
-        check_ports > /tmp/port_check.log
-
-        if grep -q "LISTEN" /tmp/port_check.log; then
-            echo "⚠️ Ports 80 or 443 are in use. Attempting to stop common services..."
-            SERVICES=("nginx" "apache2" "caddy")
-            for svc in "${SERVICES[@]}"; do
-                if systemctl is-active --quiet "$svc"; then
-                    echo "🔧 Stopping $svc..."
-                    sudo systemctl stop "$svc"
-                    sudo systemctl disable "$svc"
-                    echo "✅ $svc stopped and disabled"
-                fi
-            done
-
-            sleep 2
-            echo "🔄 Re-checking ports..."
-            check_ports > /tmp/port_check_after.log
-
-            if grep -q "LISTEN" /tmp/port_check_after.log; then
-                echo "❌ Ports are still in use:"
-                echo ""
-                echo "Do you want to continue anyway? (y/n)"
-                read -r PROCEED
-                [[ "$PROCEED" != [yY] ]] && echo "❌ Exiting..." && exit 1
-            else
-                echo "✅ Ports 80 and 443 are now free."
-            fi
-        else
-            echo "✅ Ports 80 and 443 are free."
-            echo "------------------------------------------------------"
-        fi
-
-        echo ""
-        echo "4. Starting or Restarting Caddy with Docker..."
-
-        # If Caddy is already running, stop it first to apply changes
-        if docker ps --format '{{.Names}}' | grep -q caddy; then
-            echo "🔄 Stopping existing Caddy container..."
-            echo ""
-            docker compose down
-            echo "✅ Existing Caddy container stopped."
-            echo ""
-        fi
-
-        # Run docker compose
-        echo "🚀 Launching Caddy with docker-compose..."
-        docker compose up -d
-
-        # Check status
-        if docker ps --format '{{.Names}}' | grep -q caddy; then
-            echo "✅ Caddy is up and running."
-        else
-            echo "❌ Caddy failed to start. Please check docker-compose logs."
-            docker compose logs caddy
-        fi
     fi
 
     if [[ "$PORT" == "1" ]]; then
