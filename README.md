@@ -1,14 +1,20 @@
-## UPDATE PACKAGES BEFORE RUNNING THE SCRIPT
+### UPDATE PACKAGES BEFORE RUNNING THE SCRIPT
 
-`sudo apt update && sudo apt upgrade -y`
+```bash
+sudo apt update && sudo apt upgrade -y 
+```
 
-## This script will help install Docker-CE, Docker-Compose and Portainer-CE.
-
-You can use the script by simply pulling it down with wget or curl, changing the permissions, and running it. 
+### Install Docker-CE, Docker-Compose and Portainer-CE.
 
 1. Copy this command for the install script
 
-```wget -qO install-docker.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/install_docker.sh?ref_type=heads && chmod +x install-docker.sh && ./install-docker.sh```
+```bash
+wget -qO install-docker.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/install_docker.sh?ref_type=heads && chmod +x install-docker.sh && ./install-docker.sh
+```
+After Installation:
+```bash
+rm install-docker.sh
+```
 
 ## Prompts from the script:
 First, you'll be prompted to select the number for your OS / Distro.  Currently I support RaspbianOS (latest), CentOS 7 and 8, Debian 10 and 11, Ubuntu 18.04 20.04 22.04 23.04 24.04 and on, Arch Linux, and Open Suse (tested on Leap 15.4). 
@@ -16,7 +22,6 @@ First, you'll be prompted to select the number for your OS / Distro.  Currently 
 Next, you'll be asked to answer "y" to any of the four software packages you'd like to install. 
 - Docker-CE (you'll need this for the others to work)
 - Docker-Compose (you'll need this for any of the applications to start properly)
-Note: I try to detect if Docker and Docker Compose are already installed and running...and won't prompt if they are found.
 
 Next, you'll be asked if you want to install any applications with Docker and Docker compose. This is a yes / no (y/n) question. If you answer 'y', you'll be asked to answer y/n for each application.
 
@@ -34,5 +39,3 @@ Answering "n" to any of them will cause them to be skipped.
 ### NOTE
 * You must have Docker-CE (or some version of Docker) installed in order to run any of the other three packages.
 * You must have Docker-Compose installed in order to run Portainer-CE, or any of the apps offered with this script.
-
-Before prompting to install Docker or Docker-Compose, I do try to see if you already have them installed, and I skip the prompt if you do (or I try to anyway).
