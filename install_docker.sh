@@ -425,7 +425,7 @@ startInstall()
     echo "######      Creating a Docker Network    #######"
     echo "################################################"
     echo "------------------------------------------------------"
-    sudo docker network create my-main-net
+    sudo docker network create docker-apps
     echo "------------------------------------------------------"
     sleep 2s
     # move to home directory of user
@@ -534,9 +534,9 @@ startInstall()
         cd
     fi
     echo "-------------------------------------------------------------------------"
-    echo "All docker applications have been added to the docker network my-main-net"
+    echo "All docker applications have been added to the docker network docker-apps"
     echo "-------------------------------------------------------------------------"
-    echo "If you add more docker applications to this server, make sure to add them to the my-main-net network."
+    echo "If you add more docker applications to this server, make sure to add them to the docker-apps network."
     echo ""
     exit 1
 }
