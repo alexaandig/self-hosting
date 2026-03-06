@@ -46,6 +46,7 @@ installApps()
         read -rp "Uptime Kuma - An Uptime Monitor with Notifications (y/n): " KUMA
         read -rp "RustDesk Server - a Remote Desktop / Access Relay Server (y/n): " RUST
         read -rp "Beszel Monitoring Hub - a lightweight system mointoring solution (y/n): " BESZEL
+        read -rp "n8n - Flexible AI workflow automation for technical teams (y/n): " N8N
     fi
 
     if [[ "$PTAIN" == [yY] ]]; then
@@ -446,7 +447,7 @@ startInstall()
         mkdir -p docker/nginx-proxy-manager
         cd docker/nginx-proxy-manager
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
         echo ""
@@ -485,7 +486,7 @@ startInstall()
         #sudo docker volume create portainer_data >> ~/docker-script-install.log 2>&1
         mkdir -p docker/portainer/portainer_data
         cd docker/portainer
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
 
         if [[ "$OS" == "1" ]]; then
@@ -516,7 +517,7 @@ startInstall()
         sudo docker volume create portainer_data
         mkdir -p docker/portainer
         cd docker/portainer
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
         
         if [[ "$OS" == "1" ]]; then
@@ -545,7 +546,7 @@ startInstall()
         mkdir -p docker/navidrome
         cd docker/navidrome
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_navidrome.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start Navidrome"
         echo ""
@@ -584,11 +585,11 @@ startInstall()
         mkdir -p docker/remotely
         cd docker/remotely
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_remotely.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_remotely.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         
         echo "    2. Pulling the necessary environment variable file..."
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/remotely_env -o .env >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/remotely_env -o .env >> ~/docker-script-install.log 2>&1
         
         # replace the existing default password with our randomly generated db password
         # Define the line to replace with
@@ -637,7 +638,7 @@ startInstall()
         mkdir -p docker/guacamole
         cd docker/guacamole
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_guacamole.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_guacamole.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo ""
@@ -652,7 +653,7 @@ startInstall()
 
         echo "    3. You can find the Guacamole folder at ~/docker/guacamole..."
         echo ""
-        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      You can now navigate in your browser to your server IP at"
         echo "      port number 8080 to reach the Guacamole login page."
         echo ""
         echo "      Use the default credentials to loging the first time:"
@@ -682,12 +683,12 @@ startInstall()
         mkdir -p docker/rustdesk/{hbbr,hbbs}
         cd docker/rustdesk
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_rustdesk-server.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_rustdesk-server.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo ""
         echo "    2. Pulling the environment variable file needed (.env)..."
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/rustdesk_env -o .env >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/rustdesk_env -o .env >> ~/docker-script-install.log 2>&1
         echo ""
         echo ""
         echo "    3. Creating your encryption key..."
@@ -762,7 +763,7 @@ startInstall()
         mkdir -p docker/uptime-kuma
         cd docker/uptime-kuma
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_uptime_kuma.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_uptime_kuma.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo ""
@@ -777,7 +778,7 @@ startInstall()
 
         echo "    3. You can find the Uptime Kuma folder at ~/docker/uptime-kuma..."
         echo ""
-        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      You can now navigate in your browser to your server IP at"
         echo "      port number 3001 to reach the Uptime Kuma login page."
         echo ""
         echo "      You'll create your initial user as an admin on the first login."
@@ -800,7 +801,7 @@ startInstall()
         mkdir -p docker/beszel
         cd docker/beszel
 
-        curl https://gitlab.com/bmcgonag/docker_installs/-/raw/main/docker_compose_beszel.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_beszel.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo ""
@@ -815,10 +816,45 @@ startInstall()
 
         echo "    3. You can find the Beszel folder at ~/docker/beszel..."
         echo ""
-        echo "      You can now navigate in your browser to yoru server IP at"
+        echo "      You can now navigate in your browser to your server IP at"
         echo "      port number 8090 to reach the Uptime Kuma login page."
         echo ""
         echo "      You'll create your initial user as an admin on the first login."
+        echo ""
+        echo ""
+        sleep 3s
+        cd
+    fi
+
+    if [[ "$N8N" == [yY] ]]; then
+        echo "##########################################"
+        echo "###         Installing n8n          ###"
+        echo "##########################################"
+    
+        echo ""
+        echo ""
+        echo "    1. Pulling a the n8n docker-compose.yml file."
+
+        mkdir -p docker/n8n
+        cd docker/n8n
+
+        curl https://github.com/alexaandig/self-hosting/blob/main/docker-compose_n8n.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+
+        echo ""
+        echo ""
+        echo "    2. Running the docker-compose.yml to pull and start n8n..."
+        echo ""
+
+        if [[ "$OS" == "1" ]]; then
+          docker compose up -d
+        else
+          sudo docker compose up -d
+        fi
+
+        echo "    3. You can find the n8n folder at ~/docker/n8n..."
+        echo ""
+        echo "      You can now navigate in your browser to your server IP at"
+        echo "      port number 5678 to reach the n8n login page."
         echo ""
         echo ""
         sleep 3s
