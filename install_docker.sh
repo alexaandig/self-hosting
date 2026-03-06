@@ -442,7 +442,7 @@ startInstall()
         mkdir -p docker/nginx-proxy-manager
         cd docker/nginx-proxy-manager
 
-        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose.nginx_proxy_manager.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo "    2. Running the docker-compose.yml to install and start NGinX Proxy Manager"
         echo ""
@@ -481,7 +481,7 @@ startInstall()
         #sudo docker volume create portainer_data >> ~/docker-script-install.log 2>&1
         mkdir -p docker/portainer/portainer_data
         cd docker/portainer
-        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_portainer_ce.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
 
         if [[ "$OS" == "1" ]]; then
@@ -512,7 +512,7 @@ startInstall()
         sudo docker volume create portainer_data
         mkdir -p docker/portainer
         cd docker/portainer
-        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_portainer_ce_agent.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
         echo ""
         
         if [[ "$OS" == "1" ]]; then
@@ -544,7 +544,7 @@ startInstall()
         mkdir -p docker/beszel
         cd docker/beszel
 
-        curl https://github.com/alexaandig/self-hosting/blob/main/docker_compose_beszel.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker_compose_beszel.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo ""
@@ -571,7 +571,7 @@ startInstall()
 
     if [[ "$N8N" == [yY] ]]; then
         echo "##########################################"
-        echo "###         Installing n8n          ###"
+        echo "###           Installing n8n           ###"
         echo "##########################################"
     
         echo ""
@@ -581,7 +581,7 @@ startInstall()
         mkdir -p docker/n8n
         cd docker/n8n
 
-        curl https://github.com/alexaandig/self-hosting/blob/main/docker-compose_n8n.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
+        curl https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/docker-compose_n8n.yml -o docker-compose.yml >> ~/docker-script-install.log 2>&1
 
         echo ""
         echo ""
