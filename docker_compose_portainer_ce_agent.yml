@@ -12,5 +12,5 @@ services:
 
 networks:
   default:
-    name: docker-apps
+    name: my-main-net
     external: true

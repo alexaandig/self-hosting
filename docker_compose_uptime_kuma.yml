@@ -1,0 +1,14 @@
+services:
+    uptime-kuma:
+        restart: unless-stopped
+        ports:
+            - '3001:3001'
+        volumes:
+            - ./uptime-kuma/data:/app/data
+        container_name: uptime-kuma
+        image: louislam/uptime-kuma
+
+networks:
+  default:
+    name: my-main-net
+    external: true

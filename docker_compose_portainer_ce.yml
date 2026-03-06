@@ -2,6 +2,7 @@
 services:
   portainer-ce:
     ports:
+      - '8000:8000'
       - '9000:9000'
     container_name: portainer
     restart: always
@@ -12,5 +13,5 @@ services:
 
 networks:
   default:
-    name: docker-apps
+    name: my-main-net
     external: true 
