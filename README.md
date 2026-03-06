@@ -12,11 +12,6 @@ You can use the script by simply pulling it down with wget or curl, changing the
 
 `wget -qO install-docker.sh https://raw.githubusercontent.com/alexaandig/self-hosting/refs/heads/main/install_docker.sh?ref_type=heads && chmod +x install-docker.sh && ./install-docker.sh`
 
-## Contributing by making changes
-
-1. Clone the repo
-`git clone https://gitlab.com/bmcgonag/docker_installs.git`
-
 
 ## Prompts from the script:
 First, you'll be prompted to select the number for your OS / Distro.  Currently I support RaspbianOS (latest), CentOS 7 and 8, Debian 10 and 11, Ubuntu 18.04 20.04 22.04 23.04 24.04 and on, Arch Linux, and Open Suse (tested on Leap 15.4). 
@@ -78,6 +73,3 @@ If you find issues, please let me know. I'm always open to new contributors help
 
 ## Licensing
 My script is offered without warranty against defect, and is free for you to use any way / time you want.  You may modify it in any way you see fit.  Please see the individual project pages of the software packages for their licensing.
-
-## Contributors
-@binuengoor
