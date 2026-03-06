@@ -9,17 +9,13 @@ services:
     image: n8nio/n8n:latest
     restart: always
     ports:
-      - "5678:5678"
+      - '5678:5678'
     environment:
       - DB_TYPE=postgresdb
       - DB_POSTGRESDB_HOST=db
       - DB_POSTGRESDB_USER=postgres
       - DB_POSTGRESDB_PASSWORD=password
       - DB_POSTGRESDB_DATABASE=postgres
-      - N8N_HOST=34.67.73.146
-      - N8N_PROTOCOL=http
-      - N8N_PORT=5678
-      - WEBHOOK_URL=http://34.67.73.146:5678/
 
     volumes:
       - n8n_data:/home/node/.n8n
@@ -31,8 +27,8 @@ services:
     container_name: qdrant
     restart: unless-stopped
     ports:
-      - "6333:6333"
-      - "6334:6334"
+      - '6333:6333'
+      - '6334:6334'
     volumes:
       - qdrant_storage:/qdrant/storage
 
@@ -45,7 +41,7 @@ services:
       timeout: 3s
       retries: 10
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
